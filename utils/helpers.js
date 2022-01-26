@@ -7,11 +7,16 @@ import * as Location from "expo-location";
 // POINT TO IT AND THEN PPUTS IT BACK IN STORAGE
 export const updateTrackerArray = async (newValue) => {
 	try {
+		let newArray;
 		let jsonValue = await AsyncStorage.getItem("trackerArray");
-		const parsedArray = jsonValue != null ? JSON.parse(jsonValue) : null;
-		const newArray = [...parsedArray, newValue];
-		jsonValue = JSON.stringify(newArray);
-		await AsyncStorage.setItem("trackerArray", jsonValue);
+		if (jsonValue) {
+			const parsedArray = JSON.parse(jsonValue);
+			newArray = [...parsedArray, newValue];
+		} else {
+			newArray = [newValue];
+		}
+		const newJsonValue = JSON.stringify(newArray);
+		await AsyncStorage.setItem("trackerArray", newJsonValue);
 	} catch (e) {
 		console.log("update tracker array error", e);
 	}
