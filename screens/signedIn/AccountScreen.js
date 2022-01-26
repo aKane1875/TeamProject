@@ -1,11 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { firebase } from '../../Firebase/firebase';
+// import { firebase } from '../../Firebase/firebase';
+import { auth } from '../../Firebase/firebase';
+import { signOut } from 'firebase/auth';
 
 const AccountScreen = () => {
 
   const handleSignOut = () => {
-    firebase.auth().signOut();
+    // firebase.auth().signOut();
+    signOut(auth);
   }
 
   return (
