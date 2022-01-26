@@ -9,9 +9,11 @@ import { useEffect, useState } from 'react';
 import AccountScreen from './screens/signedIn/AccountScreen';
 import MapScreen from './screens/signedIn/MapScreen';
 import SocialScreen from './screens/signedIn/SocialScreen';
-import { firebase } from './Firebase/firebase';
 import { Ionicons } from "@expo/vector-icons";
 import TestToolScreen from './screens/signedIn/TestToolScreen';
+
+import { auth } from './Firebase/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 export default function App() {
@@ -21,14 +23,15 @@ export default function App() {
 
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(user => {
+    // firebase.auth().onAuthStateChanged(user => {
+      onAuthStateChanged(auth, user => {
       if (user) {
         setIsSignedIn(true);
       } else {
         setIsSignedIn(false);
       }
     })
-  }, [])
+  }, [isSignedIn])
 
   if (isSignedIn == true) {
     return (
