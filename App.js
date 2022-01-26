@@ -35,31 +35,28 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={() => ({
+            //headerShown: false,
             tabBarActiveTintColor: "tomato",
             tabBarInactiveTintColor: "gray",
           })}
         >
           <Tab.Screen name="Account" component={AccountScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
+            options={{tabBarIcon: ({ color, size }) => (
                 <Ionicons name="person" color={color} size={size} />),
             }} />
 
           <Tab.Screen name="Map" component={MapScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
+            options={{tabBarIcon: ({ color, size }) => (
                 <Ionicons name="map" color={color} size={size} />),
             }} />
 
           <Tab.Screen name="Social" component={SocialScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
+            options={{tabBarIcon: ({ color, size }) => (
                 <Ionicons name="people" color={color} size={size} />),
             }} />
 
           <Tab.Screen name="Test" component={TestToolScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
+            options={{tabBarIcon: ({ color, size }) => (
                 <Ionicons name="hammer" color={color} size={size} />),
             }} />
 

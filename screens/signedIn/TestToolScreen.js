@@ -4,7 +4,7 @@ import React from 'react';
 const TestToolScreen = () => {
   return (
     <View>
-      <Text></Text>
+      <Text>Add dev tools on this screen =]</Text>
     </View>
   );
 };
