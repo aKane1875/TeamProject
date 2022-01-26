@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, View, Image, TextInput, TouchableOpacity, ScrollView } from "react-native";
-import { firebase } from '../Firebase/firebase';
+//import { firebase } from '../Firebase/firebase';
 import FormError from '../Components/FormError';
 import FormSuccess from '../Components/FormSuccess';
 import { Ionicons } from '@expo/vector-icons';
+
+import { auth } from '../Firebase/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 const SignUp = ({ navigation }) => {
 
@@ -26,7 +29,8 @@ const SignUp = ({ navigation }) => {
 
     function createUser() {
         setIsLoading(true);
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        // firebase.auth().createUserWithEmailAndPassword(email, password)
+        createUserWithEmailAndPassword(auth, email, password)
             .then(() => {
                 setIsLoading(false);
                 setSuccessMessage("Your account has been created");

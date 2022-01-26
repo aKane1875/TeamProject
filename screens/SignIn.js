@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, View, Image, TextInput, TouchableOpacity } from "react-native";
 import FormError from '../Components/FormError';
-import { firebase } from '../Firebase/firebase';
+import { auth, firebase } from '../Firebase/firebase';
 import FormSuccess from '../Components/FormSuccess';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 const SignIn = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState();
@@ -23,7 +25,8 @@ const SignIn = ({ navigation }) => {
         }
 
         setIsLoading(true);
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        // firebase.auth().signInWithEmailAndPassword(email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then(() => {
                 setIsLoading(false);
             })
