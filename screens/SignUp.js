@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Button,
 } from "react-native";
 //import { firebase } from '../Firebase/firebase';
 import FormError from "../Components/FormError";
@@ -21,6 +22,7 @@ import {
 import { Icon } from "react-native-elements";
 
 import ColorPalette from "react-native-color-palette";
+import * as ImagePicker from "expo-image-picker";
 
 const SignUp = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
@@ -32,6 +34,7 @@ const SignUp = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState();
   const [displayFormErr, setDisplayFormErr] = useState(false);
   const [userColor, setuserColor] = useState("");
+  const [image, setImage] = useState(null);
 
   function fullNameChange(value) {
     setFullName(value);
@@ -74,6 +77,19 @@ const SignUp = ({ navigation }) => {
     }
 
     if (passwords_match) return createUser();
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
   };
 
   return (
@@ -154,6 +170,25 @@ const SignUp = ({ navigation }) => {
             title={"Choose Player Colour"}
             // icon={<Icon name={"check-circle-o"} size={25} color={"black"} />}
           />
+          {/* Add profile pic */}
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <Button
+              title="Pick an image from camera roll"
+              onPress={pickImage}
+            />
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 100,
+                  borderColor: "white",
+                  borderWidth: 5,
+                }}
+              />
+            )}
+          </View>
           <TouchableOpacity onPress={validateForm} style={styles.Button}>
             <Text style={styles.ButtonText}>Sign up</Text>
           </TouchableOpacity>
@@ -239,4 +274,5 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginTop: 30,
   },
+  image: {},
 });
