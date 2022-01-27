@@ -11,7 +11,6 @@ import MapScreen from "./screens/signedIn/MapScreen";
 import SocialScreen from "./screens/signedIn/SocialScreen";
 import { Ionicons } from "@expo/vector-icons";
 import TestToolScreen from "./screens/signedIn/TestToolScreen";
-import ColorScreen from "./screens/signedIn/ColorScreen";
 
 import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";

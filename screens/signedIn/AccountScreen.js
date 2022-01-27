@@ -1,18 +1,10 @@
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Modal,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 // import { firebase } from '../../Firebase/firebase';
 import { auth } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
-import ColorScreen from "./ColorScreen";
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
 
 const AccountScreen = () => {
   // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
@@ -29,30 +21,12 @@ const AccountScreen = () => {
 
   const Stack = createNativeStackNavigator();
 
-  const goToColorChoice = () => {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="colorScreen"
-            component={ColorScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  };
-
   return (
     <View>
       <Text>ACCOUNT DETAILS</Text>
       <Text>PROFILE PIC HERE</Text>
       <Text>TOTAL HEXAGONS: </Text>
       <Text>TOTAL WINS: </Text>
-
-      <TouchableOpacity onPress={goToColorChoice} style={styles.button}>
-        <Text style={styles.buttonText}>Choose Color</Text>
-      </TouchableOpacity>
 
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>Sign out</Text>
