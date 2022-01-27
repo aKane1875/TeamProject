@@ -9,18 +9,21 @@ const LOCATION_TRACKING = "location-tracking";
 
 function Tracker({ setTrack, track, hexBoard, setHexBoard }) {
 	const [locationStarted, setLocationStarted] = useState(false);
+
 	let updateTrackInterval;
+
 	//Function to begin the tracker function running
 	const startLocationTracking = async () => {
 		await Location.startLocationUpdatesAsync(LOCATION_TRACKING, {
 			accuracy: Location.Accuracy.Highest,
 			timeInterval: 5000,
 			distanceInterval: 0,
-			// foregroundService: {
-			//     notificationTitle: "Using your location",
-			//     notificationBody:
-			//         "To turn off, go back to the app and switch something off.",
-			// },
+			foregroundService: {
+				notificationTitle: "App Name",
+				notificationBody: "Location is used when App is in background",
+			},
+			activityType: Location.ActivityType.Fitness,
+			showsBackgroundLocationIndicator: true,
 		});
 		const hasStarted = await Location.hasStartedLocationUpdatesAsync(
 			LOCATION_TRACKING
@@ -96,7 +99,7 @@ function Tracker({ setTrack, track, hexBoard, setHexBoard }) {
 
 TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
 	if (error) {
-		console.log("LOCATION_TRACKING TEASK ERROR:", error);
+		console.log("LOCATION_TRACKING TASK ERROR:", error);
 		return;
 	}
 	if (data) {
@@ -109,4 +112,5 @@ TaskManager.defineTask(LOCATION_TRACKING, async ({ data, error }) => {
 		updateTrackerArray(newPoint);
 	}
 });
+
 export default Tracker;
