@@ -1,5 +1,5 @@
 //import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -11,11 +11,11 @@ import MapScreen from "./screens/signedIn/MapScreen";
 import SocialScreen from "./screens/signedIn/SocialScreen";
 import { Ionicons } from "@expo/vector-icons";
 import TestToolScreen from "./screens/signedIn/TestToolScreen";
-
 import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function App() {
+  LogBox.ignoreLogs(["Setting a timer"]);
   const [isSignedIn, setIsSignedIn] = useState(true);
   const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
