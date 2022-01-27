@@ -80,15 +80,6 @@ export default function App() {
               ),
             }}
           />
-          <Tab.Screen
-            name="Color"
-            component={ColorScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="hammer" color={color} size={size} />
-              ),
-            }}
-          />
         </Tab.Navigator>
       </NavigationContainer>
     );
