@@ -170,6 +170,7 @@ const SignUp = ({ navigation }) => {
             title={"Choose Player Colour"}
             // icon={<Icon name={"check-circle-o"} size={25} color={"black"} />}
           />
+          {/* Add profile pic */}
           <View style={{ alignItems: "center", justifyContent: "center" }}>
             <Button
               title="Pick an image from camera roll"
