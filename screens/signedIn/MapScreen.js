@@ -3,7 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Polygon, Polyline } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Tracker from "../../Components/Tracker";
-import { createBoard } from "../../utils/helpers";
+import { AddListener, createBoard } from "../../utils/helpers";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../Firebase/firebase";
 
 export default function MapScreen() {
 	//this is start location only for map and also for generating grid board. Ideally not hardcoded.
@@ -16,10 +18,12 @@ export default function MapScreen() {
 		longitude: leeds_long,
 	});
 	const [track, setTrack] = useState([]); //this is the path the user generates when they start playing
-	const [hexBoard, setHexBoard] = useState(createBoard(leeds_long, leeds_lat)); //game board
+	const [hexBoard, setHexBoard] = useState([]); //game board
 	const mapRef = useRef(null);
 
 	useEffect(() => {
+		createBoard(leeds_long, leeds_lat);
+		AddListener(setHexBoard);
 		// findUser();
 		AsyncStorage.setItem("trackerArray", JSON.stringify([]));
 	}, []);
@@ -28,9 +32,17 @@ export default function MapScreen() {
 	const tappedPoly = (index) => {
 		const newBoard = [...hexBoard];
 		const tapped = newBoard[index];
-		tapped.col = "rgba(42, 181, 0, 0.5)"; //pale green
-		newBoard[index] = tapped;
+		if (auth.currentUser.uid === "NMhmZSIGbYNdjgVeCseYxRSumlN2") {
+			tapped.col = "rgba(214, 102, 4, 0.3)";
+		} else {
+			tapped.col = "rgba(255, 66, 233, 0.3)";
+		} //pale green
+		tapped.current_owner = auth.currentUser.uid;
+		// hexBoard[index] = tapped;
 		setHexBoard(newBoard);
+		updateDoc(doc(db, "gameboard", "test-board"), {
+			board: newBoard,
+		});
 	};
 
 	const panToUser = async () => {
@@ -56,17 +68,19 @@ export default function MapScreen() {
 				showsMyLocationButton={true}
 				followsUserLocation={true} //is this working now region is not set? if so, maybe manage in state
 			>
-				{hexBoard.map((poly, index) => (
-					<Polygon
-						key={index}
-						coordinates={poly.coords}
-						strokeColor="rgba(0,0,0,0.1)"
-						fillColor={poly.col}
-						strokeWidth={1}
-						tappable
-						onPress={() => tappedPoly(index)}
-					/>
-				))}
+				{hexBoard.length > 0
+					? hexBoard.map((poly, index) => (
+							<Polygon
+								key={index}
+								coordinates={poly.coords}
+								strokeColor="rgba(0,0,0,0.1)"
+								fillColor={poly.col}
+								strokeWidth={1}
+								tappable
+								onPress={() => tappedPoly(index)}
+							/>
+					  ))
+					: null}
 				{track.length > 1 ? (
 					<Polyline
 						coordinates={track}

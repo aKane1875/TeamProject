@@ -5,68 +5,68 @@ import { auth } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
 
 const AccountScreen = () => {
-  // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
-  // console.log(firebase.auth());
+	// logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
+	// console.log(firebase.auth());
 
-  // causes error when I restarted the app, need to be signed in before visiting, shoud be an easy fix
-  const fullname = auth.currentUser.displayName;
-  console.log(auth.currentUser);
+	// causes error when I restarted the app, need to be signed in before visiting, shoud be an easy fix
+	// const fullname = auth.currentUser.displayName;
+	// console.log(auth.currentUser);
 
-  const handleSignOut = () => {
-    // firebase.auth().signOut();
-    signOut(auth);
-  };
+	const handleSignOut = () => {
+		// firebase.auth().signOut();
+		signOut(auth);
+	};
 
-  return (
-    <View>
-      <Text>{auth.currentUser.displayName}ACCOUNT DETAILS</Text>
-      <Text>PROFILE PIC HERE</Text>
-      <Text>TOTAL HEXAGONS: </Text>
-      <Text>TOTAL WINS: </Text>
-      <Text>: </Text>
-      <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
-    </View>
-  );
+	return (
+		<View>
+			{/* <Text>{auth.currentUser.displayName}ACCOUNT DETAILS</Text> */}
+			<Text>PROFILE PIC HERE</Text>
+			<Text>TOTAL HEXAGONS: </Text>
+			<Text>TOTAL WINS: </Text>
+			<Text>: </Text>
+			<TouchableOpacity onPress={handleSignOut} style={styles.button}>
+				<Text style={styles.buttonText}>Sign out</Text>
+			</TouchableOpacity>
+		</View>
+	);
 };
 
 export default AccountScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-  },
-  button: {
-    backgroundColor: "tomato",
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonOutline: {
-    backgroundColor: "white",
-    marginTop: 5,
-    borderColor: "#0782F9",
-    borderWidth: 2,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "700",
-    fontSize: 16,
-  },
-  buttonOutlineText: {
-    color: "#0782F9",
-    fontWeight: "700",
-    fontSize: 16,
-  },
+	container: {
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	buttonContainer: {
+		width: "60%",
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 40,
+	},
+	button: {
+		backgroundColor: "tomato",
+		width: "100%",
+		padding: 15,
+		borderRadius: 10,
+		alignItems: "center",
+	},
+	buttonOutline: {
+		backgroundColor: "white",
+		marginTop: 5,
+		borderColor: "#0782F9",
+		borderWidth: 2,
+	},
+	buttonText: {
+		color: "white",
+		fontWeight: "700",
+		fontSize: 16,
+	},
+	buttonOutlineText: {
+		color: "#0782F9",
+		fontWeight: "700",
+		fontSize: 16,
+	},
 });
