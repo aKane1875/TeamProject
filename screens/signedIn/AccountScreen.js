@@ -4,26 +4,30 @@ import React from "react";
 import { auth } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
 
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 const AccountScreen = () => {
   // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
   // console.log(firebase.auth());
 
   // causes error when I restarted the app, need to be signed in before visiting, shoud be an easy fix
-  const fullname = auth.currentUser.displayName;
-  console.log(auth.currentUser);
+  // const fullname = auth.currentUser.displayName;
+  // console.log(auth.currentUser);
 
   const handleSignOut = () => {
     // firebase.auth().signOut();
     signOut(auth);
   };
 
+  const Stack = createNativeStackNavigator();
+
   return (
     <View>
-      <Text>{auth.currentUser.displayName}ACCOUNT DETAILS</Text>
+      <Text>ACCOUNT DETAILS</Text>
       <Text>PROFILE PIC HERE</Text>
       <Text>TOTAL HEXAGONS: </Text>
       <Text>TOTAL WINS: </Text>
-      <Text>: </Text>
+
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
@@ -68,5 +72,11 @@ const styles = StyleSheet.create({
     color: "#0782F9",
     fontWeight: "700",
     fontSize: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
   },
 });
