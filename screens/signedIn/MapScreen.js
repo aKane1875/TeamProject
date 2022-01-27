@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+	StyleSheet,
+	View,
+	Text,
+	Alert,
+	Modal,
+	Pressable,
+	Image,
+} from "react-native";
 import MapView, { PROVIDER_GOOGLE, Polygon, Polyline } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Tracker from "../../Components/Tracker";
@@ -20,6 +28,7 @@ export default function MapScreen() {
 	const [track, setTrack] = useState([]); //this is the path the user generates when they start playing
 	const [hexBoard, setHexBoard] = useState([]); //game board
 	const mapRef = useRef(null);
+	const [modalVisible, setModalVisible] = useState(false);
 
 	useEffect(() => {
 		createBoard(leeds_long, leeds_lat);
@@ -30,6 +39,7 @@ export default function MapScreen() {
 
 	//DECIDE WHAT HAPPENS WHEN TAP POLY
 	const tappedPoly = (index) => {
+		setModalVisible(true);
 		const newBoard = [...hexBoard];
 		const tapped = newBoard[index];
 		if (auth.currentUser.uid === "NMhmZSIGbYNdjgVeCseYxRSumlN2") {
@@ -90,6 +100,36 @@ export default function MapScreen() {
 					/>
 				) : null}
 			</MapView>
+
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					Alert.alert("Modal has been closed.");
+					setModalVisible(!modalVisible);
+				}}
+			>
+				<View style={styles.centeredView}>
+					<View style={styles.modalView}>
+						<Text style={styles.modalText}>Dave</Text>
+						<Text style={styles.modalText}>Points: 22</Text>
+						<Text style={styles.modalText}>Last activity: yesterday</Text>
+						<Image
+							style={styles.tinyLogo}
+							source={{
+								uri: "https://media4.giphy.com/media/FmaghsMLAH9DBRQDwc/giphy.gif",
+							}}
+						/>
+						<Pressable
+							style={[styles.button, styles.buttonClose]}
+							onPress={() => setModalVisible(!modalVisible)}
+						>
+							<Text style={styles.textStyle}>Hide Screen</Text>
+						</Pressable>
+					</View>
+				</View>
+			</Modal>
 			<Text>
 				Path Points: {track.length} hex count: {hexBoard.length}{" "}
 			</Text>
@@ -109,5 +149,51 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		alignItems: "center",
 		justifyContent: "center",
+	},
+	tinyLogo: {
+		width: 200,
+		height: 200,
+	},
+
+	centeredView: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 22,
+	},
+	modalView: {
+		margin: 20,
+		backgroundColor: "white",
+		borderRadius: 20,
+		padding: 25,
+		alignItems: "center",
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+	},
+	button: {
+		borderRadius: 20,
+		padding: 10,
+		elevation: 2,
+	},
+	buttonOpen: {
+		backgroundColor: "#F194FF",
+	},
+	buttonClose: {
+		backgroundColor: "#2196F3",
+	},
+	textStyle: {
+		color: "white",
+		fontWeight: "bold",
+		textAlign: "center",
+	},
+	modalText: {
+		marginBottom: 15,
+		textAlign: "center",
 	},
 });

@@ -12,13 +12,15 @@ import {
 import FormError from "../Components/FormError";
 import FormSuccess from "../Components/FormSuccess";
 import { Ionicons } from "@expo/vector-icons";
-
 import { auth } from "../Firebase/firebase";
 import {
   createUserWithEmailAndPassword,
   getAuth,
   updateProfile,
 } from "firebase/auth";
+import { Icon } from "react-native-elements";
+
+import ColorPalette from "react-native-color-palette";
 
 const SignUp = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
@@ -29,6 +31,7 @@ const SignUp = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [displayFormErr, setDisplayFormErr] = useState(false);
+  const [userColor, setuserColor] = useState("");
 
   function fullNameChange(value) {
     setFullName(value);
@@ -57,7 +60,7 @@ const SignUp = ({ navigation }) => {
   }
 
   const validateForm = () => {
-    var form_inputs = [fullName, email, password, confirmPassword];
+    var form_inputs = [fullName, email, password, confirmPassword, userColor];
     var passwords_match = password == confirmPassword;
 
     if (form_inputs.includes("") || form_inputs.includes(undefined)) {
@@ -117,6 +120,39 @@ const SignUp = ({ navigation }) => {
             secureTextEntry={true}
             placeholderTextColor={"#fff"}
             style={styles.TextInput}
+          />
+
+          <ColorPalette
+            onChange={(color) => setuserColor(color)}
+            value={userColor}
+            colors={[
+              "#F44336",
+              "#E91E63",
+              "#9C27B0",
+              "#673AB7",
+              "#3F51B5",
+              "#2196F3",
+              "#03A9F4",
+              "#00BCD4",
+              "#009688",
+              "#4CAF50",
+              "#8BC34A",
+              "#C0392B",
+              "#E74C3C",
+              "#9B59B6",
+              "#8E44AD",
+              "#2980B9",
+              "#CDDC39",
+              "#FFEB3B",
+              "#FFC107",
+              "#FF9800",
+              "#FF5722",
+              "#795548",
+              "#9E9E9E",
+              "#607D8B",
+            ]}
+            title={"Choose Player Colour"}
+            // icon={<Icon name={"check-circle-o"} size={25} color={"black"} />}
           />
           <TouchableOpacity onPress={validateForm} style={styles.Button}>
             <Text style={styles.ButtonText}>Sign up</Text>
