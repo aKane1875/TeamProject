@@ -8,32 +8,20 @@ import { doc, setDoc } from "firebase/firestore/lite";
 //GETS POINTS STORED BY THE TASK MANAGER IN LOCAL AsycnStorage, ADDS IT NEW
 // POINT TO IT AND THEN PPUTS IT BACK IN STORAGE
 export const updateTrackerArray = async (newValue) => {
-<<<<<<< HEAD
   try {
+    let newArray;
     let jsonValue = await AsyncStorage.getItem("trackerArray");
-    const parsedArray = jsonValue != null ? JSON.parse(jsonValue) : null;
-    const newArray = [...parsedArray, newValue];
-    jsonValue = JSON.stringify(newArray);
-    await AsyncStorage.setItem("trackerArray", jsonValue);
+    if (jsonValue) {
+      const parsedArray = JSON.parse(jsonValue);
+      newArray = [...parsedArray, newValue];
+    } else {
+      newArray = [newValue];
+    }
+    const newJsonValue = JSON.stringify(newArray);
+    await AsyncStorage.setItem("trackerArray", newJsonValue);
   } catch (e) {
     console.log("update tracker array error", e);
   }
-=======
-	try {
-		let newArray;
-		let jsonValue = await AsyncStorage.getItem("trackerArray");
-		if (jsonValue) {
-			const parsedArray = JSON.parse(jsonValue);
-			newArray = [...parsedArray, newValue];
-		} else {
-			newArray = [newValue];
-		}
-		const newJsonValue = JSON.stringify(newArray);
-		await AsyncStorage.setItem("trackerArray", newJsonValue);
-	} catch (e) {
-		console.log("update tracker array error", e);
-	}
->>>>>>> 09c3b7babaf6a639d91dfa8ad6eee8c7d2267fd1
 };
 
 //GENERATE THE GAME BOARD
