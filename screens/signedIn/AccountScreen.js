@@ -9,7 +9,8 @@ const AccountScreen = () => {
   // console.log(firebase.auth());
 
   // causes error when I restarted the app, need to be signed in before visiting, shoud be an easy fix
-  const userEmail = firebase.auth().currentUser.email;
+  const fullname = auth.currentUser.displayName;
+  console.log(auth.currentUser);
 
   const handleSignOut = () => {
     // firebase.auth().signOut();
@@ -18,7 +19,7 @@ const AccountScreen = () => {
 
   return (
     <View>
-      <Text>{userEmail} ACCOUNT DETAILS</Text>
+      <Text>{auth.currentUser.displayName}ACCOUNT DETAILS</Text>
       <Text>PROFILE PIC HERE</Text>
       <Text>TOTAL HEXAGONS: </Text>
       <Text>TOTAL WINS: </Text>
