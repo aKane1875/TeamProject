@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 // import { firebase } from '../../Firebase/firebase';
 import { auth, db } from "../../Firebase/firebase";
@@ -19,7 +19,7 @@ const AccountScreen = () => {
 
       if (docSnap.exists()) {
         // console.log("Document data:", docSnap.data().city_name);
-        console.log("Document data:", docSnap.data());
+        console.log("Document data getUser:", docSnap.data());
         setUser(docSnap.data());
         // console.log(user);
       } else {
@@ -48,6 +48,16 @@ const AccountScreen = () => {
     <View>
       <Text>{user.fullname}ACCOUNT DETAILS</Text>
       <Text>PROFILE PIC HERE</Text>
+
+      <View style={styles.container}>
+        <Image
+          style={styles.tinyLogo}
+          source={{
+            uri: user.picture,
+          }}
+        />
+      </View>
+
       <Text>TOTAL HEXAGONS: </Text>
       <Text>TOTAL WINS: </Text>
 
@@ -67,7 +77,7 @@ export default AccountScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(141, 17, 190, 0.94)",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -106,5 +116,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
+  },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  logo: {
+    width: 66,
+    height: 58,
   },
 });
