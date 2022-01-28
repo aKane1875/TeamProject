@@ -21,7 +21,7 @@ export default function MapScreen() {
   const leeds_long = -1.5497128;
 
   const [userLoc, setUserLoc] = useState({
-    //do we still need to track this?
+    // do we still need to track this?
     latitude: leeds_lat,
     longitude: leeds_long,
   });
