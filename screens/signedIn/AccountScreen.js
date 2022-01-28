@@ -16,10 +16,10 @@ const AccountScreen = () => {
     const GetSingleUser = async () => {
       const docRef = doc(db, "user", auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
-
+      // console.log(auth.currentUser.uid, "uid here");
       if (docSnap.exists()) {
         // console.log("Document data:", docSnap.data().city_name);
-        console.log("Document data getUser:", docSnap.data());
+        // console.log("Document data getUser:", docSnap.data());
         setUser(docSnap.data());
         // console.log(user);
       } else {
@@ -55,6 +55,7 @@ const AccountScreen = () => {
           }}
         />
       </View>
+
       <Text style={styles.text}>Current Hexagons: {user.curr_haxagons} </Text>
       <Text style={styles.text}>Total Hexagons: {user.total_hexagons}</Text>
       <Text style={styles.text}>
