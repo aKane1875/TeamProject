@@ -8,6 +8,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { doc, getDoc } from "firebase/firestore";
 
 const AccountScreen = () => {
+  // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
+  // console.log(firebase.auth());
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -28,12 +30,6 @@ const AccountScreen = () => {
     GetSingleUser();
   }, []);
 
-  // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
-  // console.log(firebase.auth());
-
-  // causes error when I restarted the app, need to be signed in before visiting, shoud be an easy fix
-  // const fullname = auth.currentUser.displayName;
-  // console.log(auth.currentUser);
 
   const handleSignOut = () => {
     // firebase.auth().signOut();
@@ -43,28 +39,39 @@ const AccountScreen = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <View>
-      <Text>{user.fullname}ACCOUNT DETAILS</Text>
-      <Text>PROFILE PIC HERE</Text>
 
-      <View style={styles.container}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: user.fav_colour,
+        justifyContent: "space-around",
+        alignItems: "center",
+      }}
+    >
+      <Text style={styles.name}>{user.fullname}</Text>
+      <View>
         <Image
-          style={styles.tinyLogo}
+          style={styles.profilePic}
+
           source={{
             uri: user.picture,
           }}
         />
       </View>
 
-      <Text>TOTAL HEXAGONS: </Text>
-      <Text>TOTAL WINS: </Text>
+      <Text style={styles.text}>Current Hexagons: {user.curr_haxagons} </Text>
+      <Text style={styles.text}>Total Hexagons: {user.total_hexagons}</Text>
+      <Text style={styles.text}>
+        Total Distance Covered:{" "}
+        {user.total_distance === "" ? "0 miles" : user.total.distance}
+      </Text>
 
       {/* <TouchableOpacity onPress={GetSingleUser} style={styles.button}>
 				<Text style={styles.buttonText}>Get user data</Text>
 			</TouchableOpacity> */}
 
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-        <Text style={styles.buttonText}>Sign out</Text>
+        <Text style={styles.buttonText}>SIGN OUT</Text>
       </TouchableOpacity>
     </View>
   );
@@ -74,52 +81,44 @@ export default AccountScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
+    // flex: 1,
+    textAlign: "right",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
   },
   button: {
-    backgroundColor: "tomato",
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonOutline: {
-    backgroundColor: "white",
-    marginTop: 5,
-    borderColor: "#0782F9",
+    backgroundColor: "silver",
     borderWidth: 2,
+    borderColor: "black",
+    padding: 15,
+    borderRadius: 100,
+    alignItems: "center",
+    marginTop: 10,
+    shadowColor: "rgba(0, 0, 0 ,0)",
+    shadowOffset: { width: 2, height: 2 },
   },
   buttonText: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  profilePic: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    borderColor: "rgba(217, 216, 208, 0.81)",
+    borderWidth: 7,
+  },
+  name: {
+    fontFamily: "serif",
     color: "white",
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 25,
+    textTransform: "uppercase",
   },
-  buttonOutlineText: {
-    color: "#0782F9",
-    fontWeight: "700",
-    fontSize: 16,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  tinyLogo: {
-    width: 50,
-    height: 50,
-  },
-  logo: {
-    width: 66,
-    height: 58,
+  text: {
+    color: "white",
+    fontWeight: "500",
+    fontSize: 20,
+    alignSelf: "flex-start",
   },
 });
