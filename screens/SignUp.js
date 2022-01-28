@@ -13,7 +13,7 @@ import {
 import FormError from "../Components/FormError";
 import FormSuccess from "../Components/FormSuccess";
 import { Ionicons } from "@expo/vector-icons";
-import { auth } from "../Firebase/firebase";
+import { auth, db } from "../Firebase/firebase";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -23,6 +23,7 @@ import { Icon } from "react-native-elements";
 
 import ColorPalette from "react-native-color-palette";
 import * as ImagePicker from "expo-image-picker";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
@@ -43,14 +44,29 @@ const SignUp = ({ navigation }) => {
     navigation.navigate("signIn");
   }
 
+  const AddUserData = async () => {
+    await setDoc(doc(db, "user", auth.currentUser.uid), {
+        fullname: fullName,
+        email: email,
+        fav_colour: userColor,
+        picture: image,
+        curr_haxagons: 0,
+        total_hexagons: 0,
+        total_distance: "",
+    });
+    //Add a new document in collection "users"
+};
+
   function createUser() {
     // firebase.auth().createUserWithEmailAndPassword(email, password)
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
+        AddUserData()
         updateProfile(auth.currentUser, {
           displayName: fullName,
-        }).then(() => {});
-        setSuccessMessage("Your account has been created");
+        }
+        ).then(() => {});
+        //setSuccessMessage("Your account has been created");
       })
       .catch((err) => {
         setErrorMessage(err.message);
