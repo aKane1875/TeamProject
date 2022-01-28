@@ -58,12 +58,8 @@ const AccountScreen = () => {
       <Text style={styles.text}>Current Hexagons: {user.curr_haxagons} </Text>
       <Text style={styles.text}>Total Hexagons: {user.total_hexagons}</Text>
       <Text style={styles.text}>
-        Total Distance Covered:{" "}
-        {user.total_distance === "" ? "0 miles" : user.total.distance}
+        Total Distance Covered: {user.total_distance}
       </Text>
-      {/* <TouchableOpacity onPress={GetSingleUser} style={styles.button}>
-				<Text style={styles.buttonText}>Get user data</Text>
-			</TouchableOpacity> */}
 
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>SIGN OUT</Text>
