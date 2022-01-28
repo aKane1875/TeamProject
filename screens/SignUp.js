@@ -29,7 +29,6 @@ const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [errMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [displayFormErr, setDisplayFormErr] = useState(false);
@@ -45,18 +44,15 @@ const SignUp = ({ navigation }) => {
   }
 
   function createUser() {
-    setIsLoading(true);
     // firebase.auth().createUserWithEmailAndPassword(email, password)
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         updateProfile(auth.currentUser, {
           displayName: fullName,
         }).then(() => {});
-        setIsLoading(false);
         setSuccessMessage("Your account has been created");
       })
       .catch((err) => {
-        setIsLoading(false);
         setErrorMessage(err.message);
         setDisplayFormErr(true);
       });
@@ -196,15 +192,6 @@ const SignUp = ({ navigation }) => {
       </ScrollView>
       {displayFormErr == true ? (
         <FormError hideErrOverlay={setDisplayFormErr} err={errMessage} />
-      ) : null}
-
-      {isLoading == true ? (
-        <FormSuccess />
-      ) : successMessage == "Your account has been created" ? (
-        <FormSuccess
-          successMessage={successMessage}
-          close={setSuccessMessage}
-        />
       ) : null}
     </View>
   );

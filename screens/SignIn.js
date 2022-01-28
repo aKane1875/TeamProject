@@ -17,7 +17,6 @@ const SignIn = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [errorMessage, setErrorMessage] = useState("");
   const [displayFormErr, setDisplayFormErr] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   function navigate() {
     navigation.navigate("signUp");
@@ -31,15 +30,11 @@ const SignIn = ({ navigation }) => {
       return setDisplayFormErr(true);
     }
 
-    setIsLoading(true);
     // firebase.auth().signInWithEmailAndPassword(email, password)
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        setIsLoading(false);
-      })
+      .then()
       .catch((err) => {
         setErrorMessage(err.message);
-        setIsLoading(false);
         return setDisplayFormErr(true);
       });
   };
@@ -77,8 +72,6 @@ const SignIn = ({ navigation }) => {
       {displayFormErr == true ? (
         <FormError hideErrOverlay={setDisplayFormErr} err={errorMessage} />
       ) : null}
-
-      {isLoading == true ? <FormSuccess /> : null}
     </View>
   );
 };
