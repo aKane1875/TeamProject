@@ -1,12 +1,35 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { firebase } from '../../Firebase/firebase';
-import { auth } from "../../Firebase/firebase";
+import { auth, db } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { doc, getDoc } from "firebase/firestore";
 
 const AccountScreen = () => {
+  // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
+  // console.log(firebase.auth());
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const GetSingleUser = async () => {
+      const docRef = doc(db, "user", auth.currentUser.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        // console.log("Document data:", docSnap.data().city_name);
+        console.log("Document data:", docSnap.data());
+        setUser(docSnap.data());
+        // console.log(user);
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+    };
+    GetSingleUser();
+  }, []);
+
   // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
   // console.log(firebase.auth());
 
@@ -22,12 +45,16 @@ const AccountScreen = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-    <View style={styles.container}>
-      <Text>{auth.currentUser.displayName}</Text>
-      <Text>MEMBER SINCE: {Date(auth.currentUser.createdAt).slice(0, 15)}</Text>
+    <View>
+      <Text>{user.fullname}ACCOUNT DETAILS</Text>
       <Text>PROFILE PIC HERE</Text>
       <Text>TOTAL HEXAGONS: </Text>
       <Text>TOTAL WINS: </Text>
+
+      {/* <TouchableOpacity onPress={GetSingleUser} style={styles.button}>
+				<Text style={styles.buttonText}>Get user data</Text>
+			</TouchableOpacity> */}
+
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>Sign out</Text>
       </TouchableOpacity>
