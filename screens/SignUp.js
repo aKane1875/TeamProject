@@ -101,6 +101,7 @@ const SignUp = ({ navigation }) => {
     });
     if (!result.cancelled) {
       setImage(result.uri);
+      console.log(result.uri);
     }
   };
 
