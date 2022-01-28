@@ -7,19 +7,17 @@ import { signOut } from "firebase/auth";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { doc, getDoc } from "firebase/firestore";
 
-
 const AccountScreen = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-
     const GetSingleUser = async () => {
       const docRef = doc(db, "user", auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
-
+      // console.log(auth.currentUser.uid, "uid here");
       if (docSnap.exists()) {
         // console.log("Document data:", docSnap.data().city_name);
-        console.log("Document data getUser:", docSnap.data());
+        // console.log("Document data getUser:", docSnap.data());
         setUser(docSnap.data());
         // console.log(user);
       } else {
@@ -28,10 +26,7 @@ const AccountScreen = () => {
       }
     };
     GetSingleUser();
-
   }, []);
-
-
 
   // logs e-mail address of user, also has a displayName key (username for our app that people can create when they sign up??)
   // console.log(firebase.auth());
@@ -53,14 +48,13 @@ const AccountScreen = () => {
       <Text>PROFILE PIC HERE</Text>
 
       <View style={styles.container}>
-      <Image
-        style={styles.tinyLogo}
-        source={{
-          uri: user.picture,
-        }}
-      />
-    </View>
-
+        <Image
+          style={styles.tinyLogo}
+          source={{
+            uri: user.picture,
+          }}
+        />
+      </View>
 
       <Text>TOTAL HEXAGONS: </Text>
       <Text>TOTAL WINS: </Text>
