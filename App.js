@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import TestToolScreen from "./screens/signedIn/TestToolScreen";
 import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import ResetPassword from "./screens/ResetPassword";
 
 export default function App() {
   LogBox.ignoreLogs(["Setting a timer"]);
@@ -95,6 +96,11 @@ export default function App() {
           <Stack.Screen
             name="signUp"
             component={SignUp}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="resetPassword"
+            component={ResetPassword}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
