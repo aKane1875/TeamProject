@@ -30,7 +30,6 @@ const AccountScreen = () => {
     GetSingleUser();
   }, []);
 
-
   const handleSignOut = () => {
     // firebase.auth().signOut();
     signOut(auth);
@@ -39,7 +38,6 @@ const AccountScreen = () => {
   const Stack = createNativeStackNavigator();
 
   return (
-
     <View
       style={{
         flex: 1,
@@ -52,7 +50,6 @@ const AccountScreen = () => {
       <View>
         <Image
           style={styles.profilePic}
-
           source={{
             uri: user.picture,
           }}
@@ -64,7 +61,6 @@ const AccountScreen = () => {
       <Text style={styles.text}>
         Total Distance Covered: {user.total_distance}
       </Text>
-
 
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>SIGN OUT</Text>
