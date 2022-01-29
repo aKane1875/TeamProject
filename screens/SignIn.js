@@ -22,6 +22,10 @@ const SignIn = ({ navigation }) => {
     navigation.navigate("signUp");
   }
 
+  const resetPassword = () => {
+    navigation.navigate("resetPassword");
+  }
+
   const validateInput = () => {
     var form_inputs = [email, password];
 
@@ -67,6 +71,10 @@ const SignIn = ({ navigation }) => {
 
         <TouchableOpacity style={styles.TextButton} onPress={navigate}>
           <Text style={styles.SignUpText}>Sign up</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.TextButton} onPress={resetPassword}>
+          <Text style={styles.SignUpText}>Reset my password</Text>
         </TouchableOpacity>
       </View>
       {displayFormErr == true ? (

@@ -12,7 +12,7 @@ import MapView, { PROVIDER_GOOGLE, Polygon, Polyline } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Tracker from "../../Components/Tracker";
 import { AddListener, createBoard, GetColour } from "../../utils/helpers";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase";
 
 export default function MapScreen() {
@@ -32,6 +32,8 @@ export default function MapScreen() {
 	const mapRef = useRef(null);
 	const [modalVisible, setModalVisible] = useState(false);
 	const [runData, setRunData] = useState(null);
+	const [user, setUser] = useState({});
+	const [userID, setUserId] = useState("");
 
 	useEffect(() => {
 		createBoard(leeds_long, leeds_lat);
@@ -41,22 +43,27 @@ export default function MapScreen() {
 		AsyncStorage.setItem("trackerArray", JSON.stringify([]));
 	}, []);
 
-	//DECIDE WHAT HAPPENS WHEN TAP POLY
+	useEffect(() => {
+		const GetSingleUser = async () => {
+			const docRef = doc(db, "user", userID);
+			const docSnap = await getDoc(docRef);
+
+			if (docSnap.exists()) {
+				setUser(docSnap.data());
+			} else {
+				// doc.data() will be undefined in this case
+				console.log("No such document!");
+			}
+		};
+		GetSingleUser();
+	}, [userID]);
+
 	const tappedPoly = (index) => {
-		setModalVisible(true);
 		const newBoard = [...hexBoard];
 		const tapped = newBoard[index];
-		if (auth.currentUser.uid === "NMhmZSIGbYNdjgVeCseYxRSumlN2") {
-			tapped.col = "rgba(214, 102, 4, 0.3)";
-		} else {
-			tapped.col = "rgba(255, 66, 233, 0.3)";
-		} //pale green
 		tapped.current_owner = auth.currentUser.uid;
-		// hexBoard[index] = tapped;
-		setHexBoard(newBoard);
-		setDoc(doc(db, "gameboard", board_name), {
-			board: newBoard,
-		});
+		setUserId(tapped.current_owner);
+		setModalVisible(true);
 	};
 
 	const panToUser = async () => {
@@ -137,13 +144,22 @@ export default function MapScreen() {
 				) : (
 					<View style={styles.centeredView}>
 						<View style={styles.modalView}>
-							<Text style={styles.modalText}>Dave</Text>
-							<Text style={styles.modalText}>Points: 22</Text>
-							<Text style={styles.modalText}>Last activity: yesterday</Text>
+							<Text style={styles.modalText}>{user.fullname}</Text>
+							<Text style={styles.modalText}>
+								Current hexagons: {user.curr_haxagons}
+							</Text>
+							<Text style={styles.modalText}>
+								Total Hexagons: {user.total_hexagons}
+							</Text>
+							<Text style={styles.modalText}>
+								{" "}
+								Total distance: {user.total_distance}
+							</Text>
+
 							<Image
 								style={styles.tinyLogo}
 								source={{
-									uri: "https://media4.giphy.com/media/FmaghsMLAH9DBRQDwc/giphy.gif",
+									uri: user.picture,
 								}}
 							/>
 							<Pressable
@@ -223,5 +239,11 @@ const styles = StyleSheet.create({
 	modalText: {
 		marginBottom: 15,
 		textAlign: "center",
+	},
+	tinyLogo: {
+		width: 190,
+		height: 190,
+		borderRadius: 30,
+		margin: 10,
 	},
 });
