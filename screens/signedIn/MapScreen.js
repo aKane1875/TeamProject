@@ -45,14 +45,16 @@ export default function MapScreen() {
 
 	useEffect(() => {
 		const GetSingleUser = async () => {
-			const docRef = doc(db, "user", userID);
-			const docSnap = await getDoc(docRef);
+			if (userID.length > 0) {
+				const docRef = doc(db, "user", userID);
+				const docSnap = await getDoc(docRef);
 
-			if (docSnap.exists()) {
-				setUser(docSnap.data());
-			} else {
-				// doc.data() will be undefined in this case
-				console.log("No such document!");
+				if (docSnap.exists()) {
+					setUser(docSnap.data());
+				} else {
+					// doc.data() will be undefined in this case
+					console.log("No such document!");
+				}
 			}
 		};
 		GetSingleUser();
