@@ -37,7 +37,6 @@ const TestToolScreen = () => {
 	return (
 		<View style={styles.container}>
 			<Text>Tools</Text>
-
 			<TouchableOpacity onPress={GetSingleItem} style={styles.button}>
 				<Text style={styles.buttonText}>GET ONE BIT OF DATA</Text>
 			</TouchableOpacity>

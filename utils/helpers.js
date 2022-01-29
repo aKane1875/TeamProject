@@ -2,8 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import hexGrid from "@turf/hex-grid";
 import isPointInPolygon from "geolib/es/isPointInPolygon";
 import * as Location from "expo-location";
-import { db } from "../Firebase/firebase";
-import { doc, setDoc, onSnapshot } from "firebase/firestore";
+import { auth, db } from "../Firebase/firebase";
+import { doc, setDoc, onSnapshot, getDoc } from "firebase/firestore";
 
 //GETS POINTS STORED BY THE TASK MANAGER IN LOCAL AsycnStorage, ADDS IT NEW
 // POINT TO IT AND THEN PPUTS IT BACK IN STORAGE
@@ -57,7 +57,7 @@ export const createBoard = (_lon, _lat) => {
 		board[index] = {
 			//this is the object for each hex, includes the coords arry above as a proprty. Add any properties here that each will have, eg owner, team, etc
 			current_owner: null,
-			col: "rgba(3, 90, 252, 0.4)",
+			col: "rgba(0, 89, 255, 0.4)", //blue
 			coords: _coords,
 		};
 	});
@@ -65,9 +65,21 @@ export const createBoard = (_lon, _lat) => {
 	return board;
 };
 
+export const GetColour = async () => {
+	const docRef = doc(db, "user", auth.currentUser.uid);
+	const docSnap = await getDoc(docRef);
+	if (docSnap.exists()) {
+		console.log("get colour result: ", docSnap.data().fav_colour);
+		globalColour = docSnap.data().fav_colour;
+	} else {
+		console.log("No such user!");
+	}
+};
+
 export const AddListener = (setHexBoard) => {
-	const unsub = onSnapshot(doc(db, "gameboard", "test-board"), (doc) => {
+	const unsub = onSnapshot(doc(db, "gameboard", board_name), (doc) => {
 		setHexBoard(doc.data().board);
+		globalHexBoard = doc.data().board;
 		// console.log("Current data: ", doc.data().board[0].col);
 		const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
 		console.log(source, " data: ", doc.data().board[0].col);
@@ -75,7 +87,7 @@ export const AddListener = (setHexBoard) => {
 };
 
 export const AddData = async (board) => {
-	await setDoc(doc(db, "gameboard", "test-board"), { board });
+	await setDoc(doc(db, "gameboard", board_name), { board });
 	//Add a new document in collection "users"
 };
 
