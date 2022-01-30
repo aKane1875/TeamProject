@@ -9,7 +9,8 @@ import { getPathLength, isPointInPolygon } from "geolib";
 import { doc, setDoc } from "firebase/firestore";
 import hexToRgba from "hex-to-rgba";
 import dayjs from "dayjs";
-
+var duration = require("dayjs/plugin/duration");
+dayjs.extend(duration);
 const LOCATION_TRACKING = "location-tracking";
 
 function Tracker({ setTrack, track, setRunData, setModalVisible }) {
@@ -88,12 +89,21 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 		// 		route: track,
 		// 	}),
 		// });
+
+		const _dist =
+			runDist < 1000
+				? runDist + " metres"
+				: Number(runDist / 1000).toFixed(1) + " km";
+
 		setRunData({
 			start_time: startTime,
-			duration: runTime,
-			distance: runDist,
-			speed: runDist / runTime,
+			duration: dayjs.duration(runTime).format("H:mm:ss"),
+			distance: runDist / 1000,
+			speed: runDist / 1000 / Number(dayjs.duration(runTime).asHours()),
 			route: track,
+			enemyHexes: enemyHexes,
+			nuetralHexes: nuetralHexes,
+			enemiesToNotify: [],
 		});
 		setModalVisible(true);
 		setTrack([]);

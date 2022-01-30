@@ -14,6 +14,7 @@ import TestToolScreen from "./screens/signedIn/TestToolScreen";
 import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import ResetPassword from "./screens/ResetPassword";
+import StatsScreen from "./screens/signedIn/StatsScreen";
 
 //global vars
 globalHexBoard = [];
@@ -83,6 +84,16 @@ export default function App() {
 						options={{
 							tabBarIcon: ({ color, size }) => (
 								<Ionicons name="hammer" color={color} size={size} />
+							),
+						}}
+					/>
+
+					<Tab.Screen
+						name="Stats"
+						component={StatsScreen}
+						options={{
+							tabBarIcon: ({ color, size }) => (
+								<Ionicons name="bar-chart" color={color} size={size} />
 							),
 						}}
 					/>
