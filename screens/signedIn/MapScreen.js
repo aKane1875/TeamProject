@@ -37,6 +37,7 @@ export default function MapScreen() {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [runData, setRunData] = useState(null);
 	const [user, setUser] = useState({});
+	const [hexOwner, setHexOwner] = useState({});
 	const [userID, setUserId] = useState("");
 	let mapstyle = silverview;
 
@@ -50,7 +51,6 @@ export default function MapScreen() {
 
 			let location = await Location.getCurrentPositionAsync({});
 			setUserLoc(location);
-			console.log("location on map screen: ", location);
 			createBoard(location.coords.longitude, location.coords.latitude);
 			AddListener(setHexBoard);
 			GetColour();
@@ -59,27 +59,28 @@ export default function MapScreen() {
 		})();
 	}, []);
 
-	useEffect(() => {
-		const GetSingleUser = async () => {
-			if (userID.length > 0) {
-				const docRef = doc(db, "user", userID);
-				const docSnap = await getDoc(docRef);
+	// useEffect(() => {
+	// 	const GetSingleUser = async () => {
+	// 		if (userID.length > 0) {
+	// 			const docRef = doc(db, "user", userID);
+	// 			const docSnap = await getDoc(docRef);
 
-				if (docSnap.exists()) {
-					setUser(docSnap.data());
-				} else {
-					// doc.data() will be undefined in this case
-					console.log("No such document!");
-				}
-			}
-		};
-		GetSingleUser();
-	}, [userID]);
+	// 			if (docSnap.exists()) {
+	// 				setUser(docSnap.data());
+	// 			} else {
+	// 				// doc.data() will be undefined in this case
+	// 				console.log("No such document!");
+	// 			}
+	// 		}
+	// 	};
+	// 	GetSingleUser();
+	// }, [userID]);
 
-	const tappedPoly = (index) => {
-		const tapped = hexBoard;
-		tapped.current_owner = auth.currentUser.uid;
-		setUserId(tapped.current_owner);
+	const tappedPoly = async (index) => {
+		const tapped = hexBoard[index];
+		const docRef = doc(db, "user", tapped.current_owner);
+		const docSnap = await getDoc(docRef);
+		setHexOwner(docSnap.data());
 		setModalVisible(true);
 	};
 
@@ -170,22 +171,21 @@ export default function MapScreen() {
 				) : (
 					<View style={styles.centeredView}>
 						<View style={styles.modalView}>
-							<Text style={styles.modalText}>{user.fullname}</Text>
+							<Text style={styles.modalText}>{hexOwner.fullname}</Text>
 							<Text style={styles.modalText}>
-								Current hexagons: {user.curr_haxagons}
+								Current hexagons: {hexOwner.curr_haxagons}
 							</Text>
 							<Text style={styles.modalText}>
-								Total Hexagons: {user.total_hexagons}
+								Total Hexagons: {hexOwner.total_hexagons}
 							</Text>
 							<Text style={styles.modalText}>
-								{" "}
-								Total distance: {user.total_distance}
+								Total distance: {hexOwner.total_distance}
 							</Text>
 
 							<Image
 								style={styles.tinyLogo}
 								source={{
-									uri: user.picture,
+									uri: hexOwner.picture,
 								}}
 							/>
 							<Pressable

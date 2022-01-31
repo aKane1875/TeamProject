@@ -166,8 +166,8 @@ var nuetralHexes = 0;
 var enemiesToNotify = [];
 
 const updateHexOwnerBackend = async (newPoint) => {
-	console.log("auth.currentUser.uid: ", auth.currentUser.uid);
-	console.log("globalColour: ", globalColour);
+	// console.log("auth.currentUser.uid: ", auth.currentUser.uid);
+	// console.log("globalColour: ", globalColour);
 	for (let i = 0; i < globalHexBoard.length; i++) {
 		const hex = globalHexBoard[i];
 		if (isPointInPolygon(newPoint, hex.coords)) {
