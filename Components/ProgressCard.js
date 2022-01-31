@@ -1,4 +1,3 @@
-import hexToRgba from "hex-to-rgba";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import * as Progress from "react-native-progress";
@@ -8,9 +7,8 @@ const taskText = [
 	["Run ", "km in a game"],
 	["Run ", "km in total"],
 	["Claim ", " hexes in a game"],
-	["Claim ", " hexes in total"],
 	["Claim ", " rival hexes in a game"],
-	["Claim ", " rival hexes in total"],
+	["Claim ", " hexes in total"],
 	["Run for ", " minutes in a game"],
 	["Run for ", " minutes in total"],
 ];
