@@ -1,4 +1,3 @@
-import hexToRgba from "hex-to-rgba";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import * as Progress from "react-native-progress";
