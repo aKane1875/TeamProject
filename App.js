@@ -19,7 +19,7 @@ import StatsScreen from "./screens/signedIn/StatsScreen";
 //global vars
 globalHexBoard = [];
 globalColour = "";
-board_name = "YORKTEST";
+board_name = "SAMBOARD";
 
 export default function App() {
 	LogBox.ignoreLogs(["Setting a timer"]);
@@ -49,21 +49,20 @@ export default function App() {
 					})}
 				>
 					<Tab.Screen
-						name="Account"
-						component={AccountScreen}
-						options={{
-							tabBarIcon: ({ color, size }) => (
-								<Ionicons name="person" color={color} size={size} />
-							),
-						}}
-					/>
-
-					<Tab.Screen
 						name="Map"
 						component={MapScreen}
 						options={{
 							tabBarIcon: ({ color, size }) => (
 								<Ionicons name="map" color={color} size={size} />
+							),
+						}}
+					/>
+					<Tab.Screen
+						name="Account"
+						component={AccountScreen}
+						options={{
+							tabBarIcon: ({ color, size }) => (
+								<Ionicons name="person" color={color} size={size} />
 							),
 						}}
 					/>
