@@ -19,7 +19,7 @@ import StatsScreen from "./screens/signedIn/StatsScreen";
 //global vars
 globalHexBoard = [];
 globalColour = "";
-board_name = "YORKTEST";
+board_name = "SAMBOARD";
 
 export default function App() {
   LogBox.ignoreLogs(["Setting a timer"]);
