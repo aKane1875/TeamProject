@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { db } from "../../Firebase/firebase";
 import {
   Table,
@@ -15,13 +15,14 @@ const SocialScreen = () => {
   useEffect(() => {
     const GetAllData = async () => {
       const usersCol = collection(db, "user");
-      const usersSnapshot = await getDocs(usersCol);
+      const q = query(usersCol, orderBy("total_hexagons", "desc"), limit(10));
+      const usersSnapshot = await getDocs(q);
       const usersList = usersSnapshot.docs.map((doc) => doc.data());
       setUsers(usersList);
     };
     GetAllData();
   }, []);
-  console.log(users);
+  //console.log(users);
 
   const CONTENT = {
     tableHead: [
@@ -45,7 +46,7 @@ const SocialScreen = () => {
   users.forEach((user) => {
     CONTENT.tableData.push([
       user.fullname,
-      user.curr_haxagons,
+      user.curr_hexagons,
       user.total_hexagons,
       user.total_distance,
     ]),

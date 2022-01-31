@@ -9,9 +9,7 @@ import {
   ScrollView,
   Button,
 } from "react-native";
-//import { firebase } from '../Firebase/firebase';
 import FormError from "../Components/FormError";
-import FormSuccess from "../Components/FormSuccess";
 import { Ionicons } from "@expo/vector-icons";
 import { auth, db } from "../Firebase/firebase";
 import {
@@ -19,7 +17,6 @@ import {
   getAuth,
   updateProfile,
 } from "firebase/auth";
-import { Icon } from "react-native-elements";
 
 import ColorPalette from "react-native-color-palette";
 import * as ImagePicker from "expo-image-picker";
@@ -29,16 +26,11 @@ const SignUp = ({ navigation }) => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [errMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [displayFormErr, setDisplayFormErr] = useState(false);
   const [userColor, setuserColor] = useState("");
   const [image, setImage] = useState(null);
-
-  function fullNameChange(value) {
-    setFullName(value);
-  }
 
   function navigate() {
     navigation.navigate("signIn");
@@ -50,11 +42,12 @@ const SignUp = ({ navigation }) => {
         email: email,
         fav_colour: userColor,
         picture: image,
-        curr_haxagons: 0,
+        curr_hexagons: 0,
         total_hexagons: 0,
-        total_distance: "",
+        total_distance: 0,
+        total_playtime: 0
     });
-    //Add a new document in collection "users"
+    //Add a new document in collection "user"
 };
 
   function createUser() {

@@ -56,7 +56,7 @@ const AccountScreen = () => {
         />
       </View>
 
-      <Text style={styles.text}>Current Hexagons: {user.curr_haxagons} </Text>
+      <Text style={styles.text}>Current Hexagons: {user.curr_hexagons} </Text>
       <Text style={styles.text}>Total Hexagons: {user.total_hexagons}</Text>
       <Text style={styles.text}>
         Total Distance Covered: {user.total_distance}
