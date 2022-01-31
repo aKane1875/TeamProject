@@ -6,7 +6,13 @@ import { checkPathIsInPolys, updateTrackerArray } from "../utils/helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth, db } from "../Firebase/firebase";
 import { getPathLength, isPointInPolygon } from "geolib";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  increment,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import hexToRgba from "hex-to-rgba";
 import dayjs from "dayjs";
 var duration = require("dayjs/plugin/duration");
@@ -79,16 +85,21 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
     const runTime = endTime.diff(startTime);
 
     console.log("run duration", runTime);
-    // const userRef = doc(db, "user", auth.currentUser.uid);
+    const userRef = doc(db, "user", auth.currentUser.uid);
     // await updateDoc(userRef, {
-    // 	runs: arrayUnion({
-    // 		start_time: startTime,
-    // 		run_duration: endTime.diff(startTime),
-    // 		distance: getPathLength(track),
-    // 		speed: runDist / runTime,
-    // 		route: track,
-    // 	}),
-    // });
+    // 	number_of_completed_runs: increment(1),
+    // 	total_distance: increment(getPathLength(track)),
+    // 	total_playtime: increment(endTime.diff(startTime))
+    // })
+    await updateDoc(userRef, {
+      runs: arrayUnion({
+        start_time: startTime.toString(),
+        run_duration: endTime.diff(startTime),
+        distance: getPathLength(track),
+        speed: runDist / runTime,
+        route: track,
+      }),
+    });
 
     const _dist =
       runDist < 1000

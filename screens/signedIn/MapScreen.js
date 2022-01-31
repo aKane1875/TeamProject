@@ -26,19 +26,20 @@ export default function MapScreen() {
   const leeds_lat = 53.95983643845927;
   const leeds_long = -1.0797423411577778;
 
-  const [userLoc, setUserLoc] = useState({
-    //do we still need to track this?
-    latitude: leeds_lat,
-    longitude: leeds_long,
-  });
-  const [track, setTrack] = useState([]); //this is the path the user generates when they start playing
-  const [hexBoard, setHexBoard] = useState([]); //game board
-  const mapRef = useRef(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [runData, setRunData] = useState(null);
-  const [user, setUser] = useState({});
-  const [userID, setUserId] = useState("");
-  let mapstyle = silverview;
+	const [userLoc, setUserLoc] = useState({
+		//do we still need to track this?
+		latitude: leeds_lat,
+		longitude: leeds_long,
+	});
+	const [track, setTrack] = useState([]); //this is the path the user generates when they start playing
+	const [hexBoard, setHexBoard] = useState([]); //game board
+	const mapRef = useRef(null);
+	const [modalVisible, setModalVisible] = useState(false);
+	const [runData, setRunData] = useState(null);
+	const [user, setUser] = useState({});
+	const [hexOwner, setHexOwner] = useState({});
+	const [userID, setUserId] = useState("");
+	let mapstyle = silverview;
 
   useEffect(() => {
     (async () => {
@@ -48,40 +49,40 @@ export default function MapScreen() {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setUserLoc(location);
-      console.log("location on map screen: ", location);
-      createBoard(location.coords.longitude, location.coords.latitude);
-      AddListener(setHexBoard);
-      GetColour();
-      // findUser();
-      AsyncStorage.setItem("trackerArray", JSON.stringify([]));
-    })();
-  }, []);
+			let location = await Location.getCurrentPositionAsync({});
+			setUserLoc(location);
+			createBoard(location.coords.longitude, location.coords.latitude);
+			AddListener(setHexBoard);
+			GetColour();
+			// findUser();
+			AsyncStorage.setItem("trackerArray", JSON.stringify([]));
+		})();
+	}, []);
 
-  useEffect(() => {
-    const GetSingleUser = async () => {
-      if (userID.length > 0) {
-        const docRef = doc(db, "user", userID);
-        const docSnap = await getDoc(docRef);
+	// useEffect(() => {
+	// 	const GetSingleUser = async () => {
+	// 		if (userID.length > 0) {
+	// 			const docRef = doc(db, "user", userID);
+	// 			const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          setUser(docSnap.data());
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      }
-    };
-    GetSingleUser();
-  }, [userID]);
+	// 			if (docSnap.exists()) {
+	// 				setUser(docSnap.data());
+	// 			} else {
+	// 				// doc.data() will be undefined in this case
+	// 				console.log("No such document!");
+	// 			}
+	// 		}
+	// 	};
+	// 	GetSingleUser();
+	// }, [userID]);
 
-  const tappedPoly = (index) => {
-    const tapped = hexBoard;
-    tapped.current_owner = auth.currentUser.uid;
-    setUserId(tapped.current_owner);
-    setModalVisible(true);
-  };
+	const tappedPoly = async (index) => {
+		const tapped = hexBoard[index];
+		const docRef = doc(db, "user", tapped.current_owner);
+		const docSnap = await getDoc(docRef);
+		setHexOwner(docSnap.data());
+		setModalVisible(true);
+	};
 
   const panToUser = async () => {
     findUser();
@@ -130,6 +131,7 @@ export default function MapScreen() {
         ) : null}
       </MapView>
 
+<<<<<<< HEAD
       <Modal
         animationType="slide"
         transparent={true}
@@ -211,6 +213,88 @@ export default function MapScreen() {
       ) : null}
     </View>
   );
+=======
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={modalVisible}
+				onRequestClose={() => {
+					Alert.alert("Modal has been closed.");
+					setModalVisible(!modalVisible);
+				}}
+			>
+				{runData !== null ? (
+					<View style={styles.centeredView}>
+						<View style={styles.modalView}>
+							<Text style={styles.modalText}>NICE RUN!</Text>
+							<Text style={styles.modalText}>
+								Distance: {runData.distance / 1000}km
+							</Text>
+							<Text style={styles.modalText}>Time: {runData.duration}</Text>
+							<Text style={styles.modalText}>
+								Average Speed: {runData.speed}km/h
+							</Text>
+							<Text style={styles.modalText}>
+								Hexes Claimed: {runData.nuetralHexes}
+							</Text>
+							<Text style={styles.modalText}>
+								Rival Hexes Captured: {runData.enemyHexes}
+							</Text>
+							<Pressable
+								style={[styles.button, styles.buttonClose]}
+								onPress={() => {
+									setModalVisible(!modalVisible);
+									setRunData(null);
+								}}
+							>
+								<Text style={styles.textStyle}>OK</Text>
+							</Pressable>
+						</View>
+					</View>
+				) : (
+					<View style={styles.centeredView}>
+						<View style={styles.modalView}>
+							<Text style={styles.modalText}>{hexOwner.fullname}</Text>
+							<Text style={styles.modalText}>
+								Current hexagons: {hexOwner.curr_haxagons}
+							</Text>
+							<Text style={styles.modalText}>
+								Total Hexagons: {hexOwner.total_hexagons}
+							</Text>
+							<Text style={styles.modalText}>
+								Total distance: {hexOwner.total_distance}
+							</Text>
+
+							<Image
+								style={styles.tinyLogo}
+								source={{
+									uri: hexOwner.picture,
+								}}
+							/>
+							<Pressable
+								style={[styles.button, styles.buttonClose]}
+								onPress={() => setModalVisible(!modalVisible)}
+							>
+								<Text style={styles.textStyle}>Hide Screen</Text>
+							</Pressable>
+						</View>
+					</View>
+				)}
+			</Modal>
+			<Text>
+				Path Points: {track.length} hex count: {hexBoard.length}{" "}
+			</Text>
+			{globalHexBoard ? (
+				<Tracker
+					setTrack={setTrack}
+					track={track}
+					setRunData={setRunData}
+					setModalVisible={setModalVisible}
+				/>
+			) : null}
+		</View>
+	);
+>>>>>>> 6f142f2aa8c9664da93d7d1448a7b3f456adc471
 }
 
 const styles = StyleSheet.create({
