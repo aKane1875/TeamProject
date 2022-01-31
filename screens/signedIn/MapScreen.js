@@ -14,6 +14,7 @@ import Tracker from "../../Components/Tracker";
 import { AddListener, createBoard, GetColour } from "../../utils/helpers";
 import { setDoc, getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase";
+import nightview from "../../mapstyles/nightview";
 
 export default function MapScreen() {
 	//this is start location only for map and also for generating grid board. Ideally not hardcoded.
@@ -34,6 +35,7 @@ export default function MapScreen() {
 	const [runData, setRunData] = useState(null);
 	const [user, setUser] = useState({});
 	const [userID, setUserId] = useState("");
+	let mapstyle = nightview;
 
 	useEffect(() => {
 		createBoard(leeds_long, leeds_lat);
@@ -61,8 +63,7 @@ export default function MapScreen() {
 	}, [userID]);
 
 	const tappedPoly = (index) => {
-		const newBoard = [...hexBoard];
-		const tapped = newBoard[index];
+		const tapped = hexBoard;
 		tapped.current_owner = auth.currentUser.uid;
 		setUserId(tapped.current_owner);
 		setModalVisible(true);
@@ -80,6 +81,7 @@ export default function MapScreen() {
 			<MapView
 				ref={mapRef}
 				style={{ flex: 1, margin: 1 }}
+				customMapStyle={mapstyle}
 				provider={PROVIDER_GOOGLE}
 				initialRegion={{
 					latitude: userLoc.latitude,
@@ -127,10 +129,18 @@ export default function MapScreen() {
 					<View style={styles.centeredView}>
 						<View style={styles.modalView}>
 							<Text style={styles.modalText}>NICE RUN!</Text>
-							<Text style={styles.modalText}>Distance: {runData.distance}</Text>
+							<Text style={styles.modalText}>
+								Distance: {runData.distance / 1000}km
+							</Text>
 							<Text style={styles.modalText}>Time: {runData.duration}</Text>
 							<Text style={styles.modalText}>
-								Average Speed: {runData.speed}
+								Average Speed: {runData.speed}km/h
+							</Text>
+							<Text style={styles.modalText}>
+								Hexes Claimed: {runData.nuetralHexes}
+							</Text>
+							<Text style={styles.modalText}>
+								Rival Hexes Captured: {runData.enemyHexes}
 							</Text>
 							<Pressable
 								style={[styles.button, styles.buttonClose]}
