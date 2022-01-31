@@ -15,11 +15,14 @@ import { AddListener, createBoard, GetColour } from "../../utils/helpers";
 import { setDoc, getDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebase";
 import nightview from "../../mapstyles/nightview";
+import silverview from "../../mapstyles/silverview";
+import * as Location from "expo-location";
 
 export default function MapScreen() {
 	//this is start location only for map and also for generating grid board. Ideally not hardcoded.
 	// const leeds_lat = 53.7999506;
 	// const leeds_long = -1.5497128;
+
 	const leeds_lat = 53.95983643845927;
 	const leeds_long = -1.0797423411577778;
 
@@ -35,14 +38,25 @@ export default function MapScreen() {
 	const [runData, setRunData] = useState(null);
 	const [user, setUser] = useState({});
 	const [userID, setUserId] = useState("");
-	let mapstyle = nightview;
+	let mapstyle = silverview;
 
 	useEffect(() => {
-		createBoard(leeds_long, leeds_lat);
-		AddListener(setHexBoard);
-		GetColour();
-		// findUser();
-		AsyncStorage.setItem("trackerArray", JSON.stringify([]));
+		(async () => {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status !== "granted") {
+				setErrorMsg("Permission to access location was denied");
+				return;
+			}
+
+			let location = await Location.getCurrentPositionAsync({});
+			setUserLoc(location);
+			console.log("location on map screen: ", location);
+			createBoard(location.coords.longitude, location.coords.latitude);
+			AddListener(setHexBoard);
+			GetColour();
+			// findUser();
+			AsyncStorage.setItem("trackerArray", JSON.stringify([]));
+		})();
 	}, []);
 
 	useEffect(() => {
@@ -84,8 +98,8 @@ export default function MapScreen() {
 				customMapStyle={mapstyle}
 				provider={PROVIDER_GOOGLE}
 				initialRegion={{
-					latitude: userLoc.latitude,
-					longitude: userLoc.longitude,
+					latitude: leeds_lat,
+					longitude: leeds_long,
 					latitudeDelta: 0.03, //is inital zoom level right? 0.009
 					longitudeDelta: 0.03,
 				}}

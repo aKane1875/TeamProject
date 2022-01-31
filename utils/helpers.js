@@ -27,7 +27,7 @@ export const updateTrackerArray = async (newValue) => {
 //GENERATE THE GAME BOARD
 export const createBoard = (_lon, _lat) => {
 	console.log("board created");
-	const board_size = 0.01;
+	const board_size = 0.02;
 	const board_h = board_size * 2; //can change this 2 value to adjust for a more square board
 	const bbox = [
 		_lon - board_h,
