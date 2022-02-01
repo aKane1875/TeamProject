@@ -131,13 +131,27 @@ export default function MapScreen() {
 							<Text style={styles.modalText}>
 								Distance: {runData.distance / 1000}km
 							</Text>
+							{runData.best_d ? (
+								<Text style={styles.modalText}>NEW PERSONAL BEST!</Text>
+							) : null}
 							<Text style={styles.modalText}>Time: {runData.duration}</Text>
+							{runData.best_t ? (
+								<Text style={styles.modalText}>NEW PERSONAL BEST!</Text>
+							) : null}
 							<Text style={styles.modalText}>
 								Average Speed: {runData.speed}km/h
 							</Text>
 							<Text style={styles.modalText}>
 								Hexes Claimed: {runData.claimedHexes}
 							</Text>
+							{runData.best_h ? (
+								<Text style={styles.modalText}>NEW PERSONAL BEST!</Text>
+							) : null}
+							{runData.level_up ? (
+								<Text
+									style={styles.modalText}
+								>{`LEVEL UP! You are now level ${runData.level}`}</Text>
+							) : null}
 							<Pressable
 								style={[styles.button, styles.buttonClose]}
 								onPress={() => {
@@ -154,6 +168,7 @@ export default function MapScreen() {
 						{hexOwner !== null ? (
 							<View style={styles.modalView}>
 								<Text style={styles.modalText}>{hexOwner.fullname}</Text>
+								<Text style={styles.modalText}>Level: {hexOwner.level}</Text>
 								<Text style={styles.modalText}>
 									Current hexagons: {hexOwner.curr_haxagons}
 								</Text>
