@@ -2,17 +2,29 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import React, { useState } from 'react';
 import { auth } from '../Firebase/firebase';
 import { sendPasswordResetEmail } from "firebase/auth";
+import { Ionicons } from '@expo/vector-icons';
 
-const ResetPassword = () => {
+const ResetPassword = ({navigation}) => {
     const [email, setEmail] = useState("");
 
     const resetPassword = () => {
         sendPasswordResetEmail(auth, email)
     };
 
+    function navigate() {
+		navigation.navigate("signIn");
+	}
+
     return (
         <View style={styles.container}>
             <View style={styles.BottomView}>
+            <Ionicons
+					onPress={navigate}
+					style={styles.Icon}
+					name="arrow-back-circle-outline"
+					color={"#fff"}
+					size={60}
+				/>
             <Text style={styles.Heading}>Password Reset</Text>
                 <View style={styles.ResetView}>
                     <TextInput
@@ -83,6 +95,11 @@ const styles = StyleSheet.create({
     },
     ButtonText: {
         fontWeight: "bold",
-        fontSize: 18,
+        color: "gray",
+        fontSize: 16,
     },
+    Icon: {
+		marginLeft: 5,
+		marginTop: 30,
+	},
 });

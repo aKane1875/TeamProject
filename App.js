@@ -19,7 +19,7 @@ import StatsScreen from "./screens/signedIn/StatsScreen";
 //global vars
 globalHexBoard = [];
 globalColour = "";
-board_name = "SAMBOARD";
+board_name = "RYANBOARD";
 
 export default function App() {
   LogBox.ignoreLogs(["Setting a timer"]);
@@ -68,7 +68,7 @@ export default function App() {
           />
 
           <Tab.Screen
-            name="Social"
+            name="Leaderboards"
             component={SocialScreen}
             options={{
               tabBarIcon: ({ color, size }) => (

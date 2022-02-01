@@ -60,7 +60,7 @@ const SignUp = ({ navigation }) => {
 				AddUserData();
 				updateProfile(auth.currentUser, {
 					displayName: fullName,
-				}).then(() => {});
+				}).then(() => { });
 				//setSuccessMessage("Your account has been created");
 			})
 			.catch((err) => {
@@ -151,8 +151,7 @@ const SignUp = ({ navigation }) => {
 						value={userColor}
 						colors={[
 							"#F44336",
-							"#E91E63",
-							"#9C27B0",
+							"#E91E63",				
 							"#673AB7",
 							"#3F51B5",
 							"#2196F3",
@@ -165,25 +164,28 @@ const SignUp = ({ navigation }) => {
 							"#E74C3C",
 							"#9B59B6",
 							"#8E44AD",
-							"#2980B9",
-							"#CDDC39",
+							"#2980B9",					
 							"#FFEB3B",
 							"#FFC107",
 							"#FF9800",
-							"#FF5722",
-							"#795548",
+							"#FF5722",					
 							"#9E9E9E",
 							"#607D8B",
 						]}
 						title={"Choose Player Colour"}
-						// icon={<Icon name={"check-circle-o"} size={25} color={"black"} />}
+						titleStyles={styles.Text}
+					// icon={<Icon name={"check-circle-o"} size={25} color={"black"} />}
 					/>
 					{/* Add profile pic */}
-					<View style={{ alignItems: "center", justifyContent: "center" }}>
-						<Button
+					<Text style={styles.Text}>Choose Profile Picture</Text>
+						<TouchableOpacity onPress={pickImage} style={styles.Button}>
+							<Text style={styles.ButtonText}>Pick an image from camera roll</Text>
+						</TouchableOpacity>
+					<View style={styles.container}>
+						{/* <Button
 							title="Pick an image from camera roll"
 							onPress={pickImage}
-						/>
+						/> */}
 						{image && (
 							<Image
 								source={{ uri: image }}
@@ -191,7 +193,7 @@ const SignUp = ({ navigation }) => {
 									width: 200,
 									height: 200,
 									borderRadius: 100,
-									borderColor: "white",
+									borderColor: userColor,
 									borderWidth: 5,
 								}}
 							/>
@@ -261,14 +263,16 @@ const styles = StyleSheet.create({
 		height: 52,
 		backgroundColor: "#fff",
 		borderRadius: 10,
-		marginTop: 20,
+		marginTop: 10,
+		marginBottom: 10,
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	ButtonText: {
 		fontWeight: "bold",
-		fontSize: 18,
+		color: "gray",
+		fontSize: 16,
 	},
 	SignUpText: {
 		color: "gray",
@@ -282,6 +286,15 @@ const styles = StyleSheet.create({
 	Icon: {
 		marginLeft: 5,
 		marginTop: 30,
+	},
+	Text: {
+		fontWeight: "normal",
+		fontSize: 16,
+		color: "#fff",
+		margin: 10,
+		marginTop: 20,
+		marginLeft: 20,
+		alignSelf: "flex-start",
 	},
 	image: {},
 });

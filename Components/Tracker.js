@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Button } from "react-native";
+import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { checkPathIsInPolys, updateTrackerArray } from "../utils/helpers";
@@ -172,11 +172,17 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 	};
 
 	return (
-		<View>
+		<View style={styles.container}>
 			{locationStarted ? (
-				<Button title="STOP" onPress={stopLocation} />
+				// <Button title="STOP" onPress={stopLocation} />
+				<TouchableOpacity onPress={stopLocation} style={styles.Button}>
+				<Text style={styles.ButtonText}>Stop Run</Text>
+				</TouchableOpacity>
 			) : (
-				<Button title="START" onPress={startLocation} />
+				// <Button title="Start Run" onPress={startLocation} />
+				<TouchableOpacity onPress={startLocation} style={styles.Button}>
+				<Text style={styles.ButtonText}>Start Run</Text>
+				</TouchableOpacity>
 			)}
 		</View>
 	);
@@ -224,3 +230,28 @@ const updateHexOwnerBackend = async (newPoint) => {
 };
 
 export default Tracker;
+
+const styles = StyleSheet.create({
+	container: {
+
+		justifyContent: "flex-end",
+		alignItems: "center",
+	},
+	Button: {
+		width: "90%",
+		color: "#000",
+		height: 52,
+		backgroundColor: "tomato",
+		borderRadius: 10,
+		marginTop: 0,
+		marginBottom: 0,
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	ButtonText: {
+		fontWeight: "bold",
+		color: "white",
+		fontSize: 16,
+	},
+});
