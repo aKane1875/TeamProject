@@ -9,6 +9,7 @@ import { getPathLength, isPointInPolygon } from "geolib";
 import {
 	arrayUnion,
 	doc,
+	getDoc,
 	increment,
 	setDoc,
 	updateDoc,
@@ -65,6 +66,14 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 			}
 		};
 		config();
+		if (!locationStarted) {
+			TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING).then((tracking) => {
+				if (tracking) {
+					Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
+					console.log("tracking Stopped");
+				}
+			});
+		}
 	}, []);
 
 	const levelUpCheck = (task, stat, perGame) => {
