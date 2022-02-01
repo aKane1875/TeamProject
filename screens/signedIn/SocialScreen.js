@@ -48,6 +48,8 @@ const SocialScreen = () => {
     GetAllData();
   }, [value]);
 
+  // console.log(users);
+
   const CONTENT = {
     tableHead: [
       "POS",

@@ -1,36 +1,19 @@
-import hexToRgba from "hex-to-rgba";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import * as Progress from "react-native-progress";
 
-const taskText = [
-	["Play ", " games"],
-	["Run ", "km in a game"],
-	["Run ", "km in total"],
-	["Claim ", " hexes in a game"],
-	["Claim ", " hexes in total"],
-	["Claim ", " rival hexes in a game"],
-	["Claim ", " rival hexes in total"],
-	["Run for ", " minutes in a game"],
-	["Run for ", " minutes in total"],
-];
-
-const ProgressCard = ({ task }) => {
-	const [progress, setProgress] = useState(Math.random()); //Math.round(Math.random() * 100)
+const ProgressCard = ({ cardTask, text }) => {
+	const fullText = text[0] + String(cardTask.goal) + text[1];
 	return (
-		<View
-			style={{
-				padding: 15,
-			}}
-		>
-			<Text>{task.text}</Text>
+		<View style={{ padding: 15 }}>
+			<Text>{`Level ${cardTask.level}  -  ${fullText}`}</Text>
 			<View
 				style={{
 					padding: 10,
 					alignItems: "center",
 				}}
 			>
-				<Progress.Bar progress={progress} width={300} />
+				<Progress.Bar progress={cardTask.progress} width={300} />
 			</View>
 		</View>
 	);
