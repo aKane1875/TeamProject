@@ -15,57 +15,60 @@ import { auth } from "./Firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import ResetPassword from "./screens/ResetPassword";
 import StatsScreen from "./screens/signedIn/StatsScreen";
+import { GetColour } from "./utils/helpers";
 
 //global vars
 globalHexBoard = [];
 globalColour = "";
-board_name = "RYANBOARD";
+board_name = "STATICBOARD";
 
 export default function App() {
-  LogBox.ignoreLogs(["Setting a timer"]);
-  const [isSignedIn, setIsSignedIn] = useState(true);
-  const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
+	LogBox.ignoreLogs(["Setting a timer"]);
+  LogBox.ignoreAllLogs();
+	const [isSignedIn, setIsSignedIn] = useState(true);
+	const Stack = createNativeStackNavigator();
+	const Tab = createBottomTabNavigator();
 
-  useEffect(() => {
-    // firebase.auth().onAuthStateChanged(user => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsSignedIn(true);
-      } else {
-        setIsSignedIn(false);
-      }
-    });
-  }, [isSignedIn]);
+	useEffect(() => {
+		// firebase.auth().onAuthStateChanged(user => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setIsSignedIn(true);
+				GetColour();
+			} else {
+				setIsSignedIn(false);
+			}
+		});
+	}, [isSignedIn]);
 
-  if (isSignedIn == true) {
-    return (
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={() => ({
-            //headerShown: false,
-            tabBarActiveTintColor: "tomato",
-            tabBarInactiveTintColor: "gray",
-          })}
-        >
-          <Tab.Screen
-            name="Map"
-            component={MapScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="map" color={color} size={size} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Account"
-            component={AccountScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="person" color={color} size={size} />
-              ),
-            }}
-          />
+	if (isSignedIn == true) {
+		return (
+			<NavigationContainer>
+				<Tab.Navigator
+					screenOptions={() => ({
+						//headerShown: false,
+						tabBarActiveTintColor: "tomato",
+						tabBarInactiveTintColor: "gray",
+					})}
+				>
+					<Tab.Screen
+						name="Map"
+						component={MapScreen}
+						options={{
+							tabBarIcon: ({ color, size }) => (
+								<Ionicons name="map" color={color} size={size} />
+							),
+						}}
+					/>
+					<Tab.Screen
+						name="Account"
+						component={AccountScreen}
+						options={{
+							tabBarIcon: ({ color, size }) => (
+								<Ionicons name="person" color={color} size={size} />
+							),
+						}}
+					/>
 
           <Tab.Screen
             name="Leaderboards"
@@ -77,58 +80,58 @@ export default function App() {
             }}
           />
 
-          <Tab.Screen
-            name="Test"
-            component={TestToolScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="hammer" color={color} size={size} />
-              ),
-            }}
-          />
+					<Tab.Screen
+						name="Test"
+						component={TestToolScreen}
+						options={{
+							tabBarIcon: ({ color, size }) => (
+								<Ionicons name="hammer" color={color} size={size} />
+							),
+						}}
+					/>
 
-          <Tab.Screen
-            name="Stats"
-            component={StatsScreen}
-            options={{
-              tabBarIcon: ({ color, size }) => (
-                <Ionicons name="bar-chart" color={color} size={size} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    );
-  } else {
-    return (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="signIn"
-            component={SignIn}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="signUp"
-            component={SignUp}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="resetPassword"
-            component={ResetPassword}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
+					<Tab.Screen
+						name="Stats"
+						component={StatsScreen}
+						options={{
+							tabBarIcon: ({ color, size }) => (
+								<Ionicons name="bar-chart" color={color} size={size} />
+							),
+						}}
+					/>
+				</Tab.Navigator>
+			</NavigationContainer>
+		);
+	} else {
+		return (
+			<NavigationContainer>
+				<Stack.Navigator>
+					<Stack.Screen
+						name="signIn"
+						component={SignIn}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen
+						name="signUp"
+						component={SignUp}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen
+						name="resetPassword"
+						component={ResetPassword}
+						options={{ headerShown: false }}
+					/>
+				</Stack.Navigator>
+			</NavigationContainer>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+	container: {
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });

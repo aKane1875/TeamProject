@@ -31,7 +31,7 @@ const AccountScreen = () => {
     //Here is the Share API
     Share.share({
       message:
-        `Check out my stats on Hex-Run
+     `Check out my stats on Hex-Run
       I currently own ${user.curr_hexagons} hexagons.
       I have collected ${user.total_hexagons} in total.
       I have run for ${user.total_distance}km 

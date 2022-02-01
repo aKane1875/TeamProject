@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { auth, db } from "../Firebase/firebase";
 import ProgressCard from "./ProgressCard";
 
@@ -30,6 +30,8 @@ const ProgressScreen = () => {
 	}, []);
 
 	return (
+		<ScrollView verticle={true} >
+
 		<View
 			style={{
 				flex: 1,
@@ -46,23 +48,13 @@ const ProgressScreen = () => {
 					<ProgressCard cardTask={taskList[5]} text={taskText[5]} />
 					<ProgressCard cardTask={taskList[6]} text={taskText[6]} />
 				</>
-			) : (
-				<Text>NO TASKS</Text>
-			)}
+			) : null}
 		</View>
+			</ScrollView>
 	);
 };
 
 export default ProgressScreen;
-
-// <ProgressCard task={tasks[0]} />
-// <ProgressCard task={tasks[1]} />
-// <ProgressCard task={tasks[2]} />
-// <ProgressCard task={tasks[3]} />
-// <ProgressCard task={tasks[4]} />
-// <ProgressCard task={tasks[5]} />
-// <ProgressCard task={tasks[6]} />
-// <ProgressCard task={tasks[7]} />
 
 // {taskList.length > 0 ? (
 // 	taskList.map((task, index) => {

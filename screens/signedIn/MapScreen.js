@@ -23,8 +23,11 @@ export default function MapScreen() {
 	// const leeds_lat = 53.7999506;
 	// const leeds_long = -1.5497128;
 
-	const leeds_lat = 53.95983643845927;
-	const leeds_long = -1.0797423411577778;
+	const leeds_lat = 53.9058;
+	const leeds_long = -1.6918;
+
+	//const leeds_lat = 53.95983643845927; //york_lat
+	//const leeds_long = -1.0797423411577778; //york_long
 
 	const [userLoc, setUserLoc] = useState({
 		//do we still need to track this?
@@ -47,11 +50,12 @@ export default function MapScreen() {
 				return;
 			}
 
-			let location = await Location.getCurrentPositionAsync({});
-			setUserLoc(location);
-			createBoard(location.coords.longitude, location.coords.latitude);
+			//let location = await Location.getCurrentPositionAsync({});
+			//setUserLoc(location);
+			//createBoard(location.coords.longitude, location.coords.latitude);
+			//createBoard(leeds_long, leeds_lat);
 			AddListener(setHexBoard);
-			GetColour();
+
 			// findUser();
 			AsyncStorage.setItem("trackerArray", JSON.stringify([]));
 		})();
@@ -131,16 +135,27 @@ export default function MapScreen() {
 							<Text style={styles.modalText}>
 								Distance: {runData.distance / 1000}km
 							</Text>
+							{runData.best_d ? (
+								<Text style={styles.modalText}>NEW PERSONAL BEST!</Text>
+							) : null}
 							<Text style={styles.modalText}>Time: {runData.duration}</Text>
+							{runData.best_t ? (
+								<Text style={styles.modalText}>NEW PERSONAL BEST!</Text>
+							) : null}
 							<Text style={styles.modalText}>
 								Average Speed: {runData.speed}km/h
 							</Text>
 							<Text style={styles.modalText}>
-								Hexes Claimed: {runData.nuetralHexes}
+								Hexes Claimed: {runData.claimedHexes}
 							</Text>
-							<Text style={styles.modalText}>
-								Rival Hexes Captured: {runData.enemyHexes}
-							</Text>
+							{runData.best_h ? (
+								<Text style={styles.modalText}>NEW PERSONAL BEST!</Text>
+							) : null}
+							{runData.level_up ? (
+								<Text
+									style={styles.modalText}
+								>{`LEVEL UP! You are now level ${runData.level}`}</Text>
+							) : null}
 							<Pressable
 								style={[styles.button, styles.buttonClose]}
 								onPress={() => {
@@ -157,8 +172,9 @@ export default function MapScreen() {
 						{hexOwner !== null ? (
 							<View style={styles.modalView}>
 								<Text style={styles.modalText}>{hexOwner.fullname}</Text>
+								<Text style={styles.modalText}>Level: {hexOwner.level}</Text>
 								<Text style={styles.modalText}>
-									Current hexagons: {hexOwner.curr_haxagons}
+									Current hexagons: {hexOwner.curr_hexagons}
 								</Text>
 								<Text style={styles.modalText}>
 									Total Hexagons: {hexOwner.total_hexagons}
@@ -255,10 +271,10 @@ const styles = StyleSheet.create({
 		elevation: 2,
 	},
 	buttonOpen: {
-		backgroundColor: "#F194FF",
+		backgroundColor: "tomato",
 	},
 	buttonClose: {
-		backgroundColor: "#2196F3",
+		backgroundColor: "tomato",
 	},
 	textStyle: {
 		color: "white",

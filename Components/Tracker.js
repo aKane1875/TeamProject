@@ -9,6 +9,7 @@ import { getPathLength, isPointInPolygon } from "geolib";
 import {
 	arrayUnion,
 	doc,
+	getDoc,
 	increment,
 	setDoc,
 	updateDoc,
@@ -65,6 +66,14 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 			}
 		};
 		config();
+		// if (!locationStarted) {
+		// 	TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING).then((tracking) => {
+		// 		if (tracking) {
+		// 			Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
+		// 			console.log("tracking Stopped");
+		// 		}
+		// 	});
+		// }
 	}, []);
 
 	const levelUpCheck = (task, stat, perGame) => {
@@ -107,7 +116,32 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 			goalsHit += levelUpCheck(tasks[4], runTime / 1000 / 60, true);
 			goalsHit += levelUpCheck(tasks[4], runTime / 1000 / 60, false);
 
+			let pb_dist = false;
+			let pb_hex = false;
+			let pb_time = false;
+			let best_d = docSnap.data().best_distance;
+			let best_h = docSnap.data().best_hexagons;
+			let best_t = docSnap.data().best_playtime;
+			const newLevel = docSnap.data().level + goalsHit;
+
+			if (runDist > best_d) {
+				pb_dist = true;
+				best_d = runDist;
+			}
+			if (claimedHexes > best_h) {
+				pb_hex = true;
+				best_h = claimedHexes;
+			}
+			if (runTime > best_t) {
+				pb_time = true;
+				best_d = runTime;
+			}
+
 			await updateDoc(userRef, {
+				level: newLevel,
+				best_distance: best_d,
+				best_hexagons: best_h,
+				best_playtime: best_t,
 				total_distance: docSnap.data().total_distance + runDist,
 				total_hexagons: docSnap.data().total_hexagons + claimedHexes,
 				total_playtime: docSnap.data().total_playtime + runTime,
@@ -124,27 +158,31 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 					route: track,
 				}),
 			});
-		} else {
-			console.log("No such document!");
+	
+		let _level_up = false;
+		if (goalsHit > 0) {
+			_level_up = true;
 		}
-
-		const _dist =
-			runDist < 1000
-				? runDist + " metres"
-				: Number(runDist / 1000).toFixed(1) + " km";
-
 		setRunData({
 			start_time: startTime,
 			duration: dayjs.duration(runTime).format("H:mm:ss"),
+			best_t: pb_time,
 			distance: runDist / 1000,
+			best_d: pb_dist,
 			speed: runDist / 1000 / Number(dayjs.duration(runTime).asHours()),
 			// route: track,
 			claimedHexes: claimedHexes,
+			best_x: pb_hex,
+			level: newLevel,
+			level_up: _level_up,
 		});
 		setModalVisible(true);
 		setTrack([]);
 		currentHex = -1;
 		claimedHexes = 0;
+			} else {
+			console.log("No such document!");
+		}
 		TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING).then((tracking) => {
 			if (tracking) {
 				Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
@@ -214,14 +252,16 @@ const updateHexOwnerBackend = async (newPoint) => {
 		const hex = globalHexBoard[i];
 		if (isPointInPolygon(newPoint, hex.coords)) {
 			if (currentHex !== i) {
-				//only claim hex if it is not tile currently standing in
-				claimedHexes++;
-				hex.current_owner = auth.currentUser.uid;
-				hex.col = hexToRgba(globalColour, 0.6);
 				currentHex = i;
-				await setDoc(doc(db, "gameboard", board_name), {
-					board: globalHexBoard,
-				});
+				//only claim hex if it is not tile currently standing in
+				if (hex.current_owner != auth.currentUser.uid){
+					claimedHexes++;
+					hex.current_owner = auth.currentUser.uid;
+					hex.col = hexToRgba(globalColour, 0.6);
+					await setDoc(doc(db, "gameboard", board_name), {
+						board: globalHexBoard,
+					});
+				}
 				break;
 			}
 			//put stuff here if you want it to happen if a point is inside a hex. Can refer to the hex directly using "hex"

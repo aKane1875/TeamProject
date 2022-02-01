@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import FormError from "../Components/FormError";
 import { Ionicons } from "@expo/vector-icons";
-import { auth, db } from "../Firebase/firebase";
+import { auth, db, storage } from "../Firebase/firebase";
 import {
 	createUserWithEmailAndPassword,
 	getAuth,
@@ -21,6 +21,7 @@ import {
 import ColorPalette from "react-native-color-palette";
 import * as ImagePicker from "expo-image-picker";
 import { doc, setDoc } from "firebase/firestore";
+// import { ref, uploadString } from "firebase/storage";
 
 const SignUp = ({ navigation }) => {
 	const [fullName, setFullName] = useState("");
@@ -46,6 +47,10 @@ const SignUp = ({ navigation }) => {
 			total_hexagons: 0,
 			total_distance: 0,
 			total_playtime: 0,
+			best_distance: 0,
+			best_hexagons: 0,
+			best_playtime: 0,
+			level: 0,
 			number_of_completed_runs: 0,
 			runs: [],
 			tasks: tasks,
@@ -86,6 +91,8 @@ const SignUp = ({ navigation }) => {
 		if (passwords_match) return createUser();
 	};
 
+	
+
 	const pickImage = async () => {
 		// No permissions request is necessary for launching the image library
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -97,7 +104,14 @@ const SignUp = ({ navigation }) => {
 		if (!result.cancelled) {
 			setImage(result.uri);
 			console.log(result.uri);
+			// const pictureRef = ref(storage, "gs://teamproject-11334.appspot.com");
+			// const uriString = result.uri;
+			// uploadString(pictureRef, uriString).then((snapshot) => {
+			// 	console.log('Uploaded a raw string!');
+			// });
 		}
+
+
 	};
 
 	return (
@@ -151,7 +165,7 @@ const SignUp = ({ navigation }) => {
 						value={userColor}
 						colors={[
 							"#F44336",
-							"#E91E63",				
+							"#E91E63",
 							"#673AB7",
 							"#3F51B5",
 							"#2196F3",
@@ -164,11 +178,11 @@ const SignUp = ({ navigation }) => {
 							"#E74C3C",
 							"#9B59B6",
 							"#8E44AD",
-							"#2980B9",					
+							"#2980B9",
 							"#FFEB3B",
 							"#FFC107",
 							"#FF9800",
-							"#FF5722",					
+							"#FF5722",
 							"#9E9E9E",
 							"#607D8B",
 						]}
@@ -178,9 +192,9 @@ const SignUp = ({ navigation }) => {
 					/>
 					{/* Add profile pic */}
 					<Text style={styles.Text}>Choose Profile Picture</Text>
-						<TouchableOpacity onPress={pickImage} style={styles.Button}>
-							<Text style={styles.ButtonText}>Pick an image from camera roll</Text>
-						</TouchableOpacity>
+					<TouchableOpacity onPress={pickImage} style={styles.Button}>
+						<Text style={styles.ButtonText}>Pick an image from camera roll</Text>
+					</TouchableOpacity>
 					<View style={styles.container}>
 						{/* <Button
 							title="Pick an image from camera roll"
