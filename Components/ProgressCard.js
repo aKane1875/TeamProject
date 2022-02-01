@@ -13,7 +13,10 @@ const ProgressCard = ({ cardTask, text }) => {
 					alignItems: "center",
 				}}
 			>
-				<Progress.Bar progress={cardTask.progress} width={300} />
+				<Progress.Bar
+					progress={cardTask.progress / cardTask.goal}
+					width={300}
+				/>
 			</View>
 		</View>
 	);

@@ -51,7 +51,7 @@ export default function MapScreen() {
 			setUserLoc(location);
 			createBoard(location.coords.longitude, location.coords.latitude);
 			AddListener(setHexBoard);
-			GetColour();
+
 			// findUser();
 			AsyncStorage.setItem("trackerArray", JSON.stringify([]));
 		})();
@@ -136,10 +136,7 @@ export default function MapScreen() {
 								Average Speed: {runData.speed}km/h
 							</Text>
 							<Text style={styles.modalText}>
-								Hexes Claimed: {runData.nuetralHexes}
-							</Text>
-							<Text style={styles.modalText}>
-								Rival Hexes Captured: {runData.enemyHexes}
+								Hexes Claimed: {runData.claimedHexes}
 							</Text>
 							<Pressable
 								style={[styles.button, styles.buttonClose]}

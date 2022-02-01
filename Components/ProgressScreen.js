@@ -46,23 +46,12 @@ const ProgressScreen = () => {
 					<ProgressCard cardTask={taskList[5]} text={taskText[5]} />
 					<ProgressCard cardTask={taskList[6]} text={taskText[6]} />
 				</>
-			) : (
-				<Text>NO TASKS</Text>
-			)}
+			) : null}
 		</View>
 	);
 };
 
 export default ProgressScreen;
-
-// <ProgressCard task={tasks[0]} />
-// <ProgressCard task={tasks[1]} />
-// <ProgressCard task={tasks[2]} />
-// <ProgressCard task={tasks[3]} />
-// <ProgressCard task={tasks[4]} />
-// <ProgressCard task={tasks[5]} />
-// <ProgressCard task={tasks[6]} />
-// <ProgressCard task={tasks[7]} />
 
 // {taskList.length > 0 ? (
 // 	taskList.map((task, index) => {

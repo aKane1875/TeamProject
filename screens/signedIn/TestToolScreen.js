@@ -1,11 +1,20 @@
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View, Share, ScrollView } from "react-native";
+import {
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+	Share,
+	ScrollView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 // import ProgressBar from 'react-native-progress/Bar';
 import { auth, db } from "../../Firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
 const TestToolScreen = () => {
-	const [inputValue, setInputValue] = useState('');
+	const [inputValue, setInputValue] = useState("");
 	const [user, setUser] = useState({});
 
 	useEffect(() => {
@@ -22,7 +31,6 @@ const TestToolScreen = () => {
 		GetDeets();
 	}, []);
 
-
 	//https://docs.expo.dev/versions/latest/sdk/sharing/
 	const shareMessage = () => {
 		//Here is the Share API
@@ -35,31 +43,26 @@ const TestToolScreen = () => {
 			.catch((errorMsg) => console.log(errorMsg));
 	};
 
-
-
 	return (
 		<View style={styles.container}>
-				<TextInput
-					value={inputValue}
-					onChangeText={
-						(inputValue) => setInputValue(inputValue)
-					}
-					placeholder={'Enter Text to Share'}
-					style={styles.textInput}
-				/>
-				<TouchableOpacity
-					activeOpacity={0.7}
-					style={styles.button}
-					onPress={shareMessage}>
-					<Text style={styles.buttonText}>
-						Share Input Text
-					</Text>
-				</TouchableOpacity>
-{/* 
+			<TextInput
+				value={inputValue}
+				onChangeText={(inputValue) => setInputValue(inputValue)}
+				placeholder={"Enter Text to Share"}
+				style={styles.textInput}
+			/>
+			<TouchableOpacity
+				activeOpacity={0.7}
+				style={styles.button}
+				onPress={shareMessage}
+			>
+				<Text style={styles.buttonText}>Share Input Text</Text>
+			</TouchableOpacity>
+			{/* 
 				<Text>Collect 10 Hexagons:</Text>
 				<ProgressBar progress={user.total_hexagons / 10} width={200} height={10} color="rgba(0, 122, 255, 1)" /> */}
 
-				{/* <Text>Collect 10 Hexagons:</Text>
+			{/* <Text>Collect 10 Hexagons:</Text>
 				<ProgressBar progress={user.total_hexagons / 10} width={200} height={10} color={user.fav_colour} />
 				<Text>Collect 100 Hexagons:</Text>
 				<ProgressBar progress={user.total_hexagons / 100} width={200} height={10} color={user.fav_colour} />
@@ -104,9 +107,9 @@ const styles = StyleSheet.create({
 	},
 	textInput: {
 		height: 40,
-		borderColor: 'gray',
+		borderColor: "gray",
 		borderWidth: 1,
-		width: '90%',
+		width: "90%",
 		paddingHorizontal: 10,
 	},
 });
