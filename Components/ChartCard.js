@@ -20,7 +20,7 @@ const ChartCard = ({ title, runData }) => {
 				<VictoryLabel text={title} x={160} y={30} textAnchor="middle" />
 				<VictoryLine
 					style={{
-						data: { stroke: "#c43a31" },
+						data: { stroke: "tomato" },
 						parent: { border: "1px solid #ccc" },
 					}}
 					interpolation="basis"

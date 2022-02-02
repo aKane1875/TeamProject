@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { auth, db } from "../Firebase/firebase";
 import ProgressCard from "./ProgressCard";
 
@@ -30,6 +30,8 @@ const ProgressScreen = () => {
 	}, []);
 
 	return (
+		<ScrollView verticle={true} >
+
 		<View
 			style={{
 				flex: 1,
@@ -48,6 +50,7 @@ const ProgressScreen = () => {
 				</>
 			) : null}
 		</View>
+			</ScrollView>
 	);
 };
 

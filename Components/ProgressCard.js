@@ -15,7 +15,7 @@ const ProgressCard = ({ cardTask, text }) => {
 			>
 				<Progress.Bar
 					progress={cardTask.progress / cardTask.goal}
-					width={300}
+					width={300} color="tomato"
 				/>
 			</View>
 		</View>
