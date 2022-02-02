@@ -76,6 +76,8 @@ const SocialScreen = () => {
 	});
 
 	return (
+
+		
 		<View style={styles.container}>
 			<Text>LEADERBOARD</Text>
 
