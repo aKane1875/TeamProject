@@ -26,7 +26,7 @@ export default function StatsScreen() {
 				tabBarStyle: { backgroundColor: 'white' },
 			}}
 		>
-			<Tab.Screen name="Achievements" component={ProgressScreen} />
+			<Tab.Screen name="Tasks" component={ProgressScreen} />
 			<Tab.Screen name="Statistics" component={Charts} />
 		</Tab.Navigator>
 		// </NavigationContainer>
