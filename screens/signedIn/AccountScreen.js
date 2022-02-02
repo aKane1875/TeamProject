@@ -1,4 +1,12 @@
-import { Image, ScrollView, Share, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
@@ -30,8 +38,7 @@ const AccountScreen = () => {
   const shareMessage = () => {
     //Here is the Share API
     Share.share({
-      message:
-     `Check out my stats on Hex-Run
+      message: `Check out my stats on Hex-Run
       I currently own ${user.curr_hexagons} hexagons.
       I have collected ${user.total_hexagons} in total.
       I have run for ${user.total_distance}km 
@@ -44,24 +51,20 @@ const AccountScreen = () => {
   };
 
   return (
+    <ScrollView>
+      <View style={styles.container}>
+        <Text
+          style={{
+            color: user.fav_colour,
+            fontSize: 40,
+            fontWeight: "bold",
+            marginBottom: 10,
+            marginTop: 10,
+          }}
+        >
+          {user.fullname}
+        </Text>
 
-
-      <View
-        style={styles.container}
-      // {{flex: 1,
-      //   backgroundColor: user.fav_colour,
-      //   justifyContent: "space-around",
-      //   alignItems: "center",}}
-      >
-        <Text style={
-             {
-              color: user.fav_colour,
-              fontSize: 40,
-              fontWeight: "bold",
-              marginBottom: 10,
-              marginTop: 10,
-            }
-        }>{user.fullname}</Text>
         <View>
           <Image
             style={{
@@ -70,22 +73,62 @@ const AccountScreen = () => {
               borderRadius: 100,
               borderColor: user.fav_colour,
               borderWidth: 7,
-
             }}
             source={{ uri: user.picture }}
           />
+          <Text
+            style={{
+              color: user.fav_colour,
+              fontSize: 25,
+              fontWeight: "bold",
+              marginBottom: 10,
+              marginTop: 10,
+              alignSelf: "center",
+            }}
+          >
+            Level {user.level}
+          </Text>
         </View>
-
-        <View style={styles.TextContainer}>
-
-          <Text style={styles.text}>Current Hexagons: {user.curr_hexagons} </Text>
-          <Text style={styles.text}>Total Hexagons: {user.total_hexagons}</Text>
-          <Text style={styles.text}>Total Distance Covered: {user.total_distance} km</Text>
-          <Text style={styles.text}>Total Playtime: {user.total_playtime} minutes</Text>
-
-          {/* <Text style={styles.text}>Most Recent Run: {user.runs.slice(-1).start_time} </Text> */}
-
+      </View>
+      <View style={styles.Stats}>
+        <View style={styles.Totals}>
+          <Text style={styles.textTitle}>TOTALS</Text>
+          <Text style={styles.text}>
+            Current Hexagons
+            <Text style={styles.Counts}>{"\n" + user.curr_hexagons}</Text>
+          </Text>
+          <Text style={styles.text}>
+            Total Hexagons{" "}
+            <Text style={styles.Counts}>{"\n" + user.total_hexagons}</Text>
+          </Text>
+          <Text style={styles.text}>
+            Total Distance Covered{" "}
+            <Text style={styles.Counts}>{"\n" + user.total_distance} km</Text>
+          </Text>
+          <Text style={styles.text}>
+            Total Playtime{" "}
+            <Text style={styles.Counts}>
+              {"\n" + user.total_playtime} minutes
+            </Text>
+          </Text>
         </View>
+        <View style={styles.Bests}>
+          <Text style={styles.textTitle}>PERSONAL BESTS</Text>
+          <Text style={styles.text}>
+            Furthest Distance ran{" "}
+            <Text style={styles.Counts}>{"\n" + user.best_distance} km</Text>
+          </Text>
+          <Text style={styles.text}>
+            Most hexagons claimed{" "}
+            <Text style={styles.Counts}>{"\n" + user.best_distance} km</Text>
+          </Text>
+          <Text style={styles.text}>
+            Best time{" "}
+            <Text style={styles.Counts}>{"\n" + user.best_distance}</Text>
+          </Text>
+        </View>
+      </View>
+      <View style={styles.container}>
         <TouchableOpacity onPress={shareMessage} style={styles.button}>
           <Text style={styles.buttonText}>Share your stats</Text>
         </TouchableOpacity>
@@ -93,7 +136,7 @@ const AccountScreen = () => {
           <Text style={styles.buttonText}>Sign out</Text>
         </TouchableOpacity>
       </View>
- 
+    </ScrollView>
   );
 };
 
@@ -112,41 +155,55 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     marginTop: 5,
-    marginBottom: 0
+    marginBottom: 0,
   },
   buttonText: {
     color: "white",
     fontWeight: "700",
     fontSize: 16,
   },
-  // profilePic: {
-  //   width: 200,
-  //   height: 200,
-  //   borderRadius: 100,
-  //   borderColor: "rgba(217, 216, 208, 0.81)",
-  //   borderWidth: 7,
-  // },
-  // name: {
-  //   // color: user.fav_colour,
-  //   fontWeight: "700",
-  //   fontSize: 25,
-  //   fontWeight: "bold",
-  //   marginBottom: 20,
-  //   marginTop: 20,
-  //   // textTransform: "uppercase",
-  // },
-  TextContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "flex-start",
 
+  textTitle: {
+    marginLeft: 0,
+    marginTop: 5,
+    color: "tomato",
+    fontWeight: "bold",
+    fontSize: 16,
+    alignSelf: "flex-start",
   },
   text: {
-    marginLeft: 0,
+    // marginLeft: 0,
     marginTop: 5,
     color: "tomato",
     fontWeight: "500",
     fontSize: 16,
-    alignSelf: "flex-start",
+    // alignSelf: "flex-end",
+    borderWidth: 2,
+    borderColor: "tomato",
+    alignSelf: "center",
+  },
+  Stats: {
+    // textAlign: "center",
+  },
+  Totals: {
+    borderWidth: 2,
+    borderColor: "green",
+    // alignSelf: "flex-start",
+    marginBottom: 20,
+    // width: "90%",
+    // alignContent: "center",
+  },
+  Bests: {
+    borderWidth: 2,
+    borderColor: "green",
+    // alignSelf: "flex-end",
+    // textAlign: "right",
+    marginBottom: 20,
+    // width: "90%",
+  },
+  Counts: {
+    // textAlign: "center",
+    fontSize: 50,
+    alignSelf: "center",
   },
 });
