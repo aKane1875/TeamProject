@@ -46,7 +46,14 @@ const SignIn = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.BottomView}>
-        <Text style={styles.Heading}>Welcome</Text>
+        {/* <Text style={styles.Heading}>Welcome</Text> */}
+        <View>
+          <Image
+            style={styles.Logo}
+            source={require("../assets/adaptive-icon.png")}
+          />
+        </View>
+
         <View style={styles.FormView}>
           <TextInput
             value={email}
@@ -148,4 +155,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
+  Logo: {
+    width: 300,
+    height: 300,
+    alignSelf: "center",
+    // borderRadius: 100,
+    // borderColor: user.fav_colour,
+    // borderWidth: 7,
+  }
 });
