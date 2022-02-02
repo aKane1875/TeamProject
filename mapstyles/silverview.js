@@ -98,7 +98,7 @@ export default silverview = [
 		elementType: "geometry",
 		stylers: [
 			{
-				color: "#ffffff",
+				color: "#FF6347",
 			},
 		],
 	},
@@ -178,7 +178,7 @@ export default silverview = [
 		elementType: "geometry",
 		stylers: [
 			{
-				color: "#c9c9c9",
+				color: "#D4F1F9",
 			},
 		],
 	},

@@ -30,20 +30,23 @@ const styles = StyleSheet.create({
         height: 72,
     },
     errorMessage: {
-        color: '#000',
+        fontWeight: "bold",
+        color: 'grey',
         fontSize: 20,
         marginTop: 20,
         textAlign: 'center'
     },
     buttonText: {
+        fontWeight: "bold",
         color: "white",
+        fontSize: 16,
     },
     Button: {
         width: 280,
         color: '#000',
         height: 51,
         backgroundColor: 'tomato',
-        borderRadius: 5,
+        borderRadius: 10,
         marginTop: 20,
         display: 'flex',
         justifyContent: 'center',

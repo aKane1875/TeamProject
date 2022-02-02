@@ -134,10 +134,12 @@ const styles = StyleSheet.create({
   },
   ButtonText: {
     fontWeight: "bold",
-    fontSize: 18,
+    color: "gray",
+    fontSize: 16,
   },
   SignUpText: {
-    fontWeight: "bold",
+    fontWeight: "normal",
+    fontSize: 16,
     color: "#fff",
   },
   TextButton: {

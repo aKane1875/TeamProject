@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Button } from "react-native";
+import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
 import { checkPathIsInPolys, updateTrackerArray } from "../utils/helpers";
@@ -66,14 +66,14 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 			}
 		};
 		config();
-		if (!locationStarted) {
-			TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING).then((tracking) => {
-				if (tracking) {
-					Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
-					console.log("tracking Stopped");
-				}
-			});
-		}
+		// if (!locationStarted) {
+		// 	TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING).then((tracking) => {
+		// 		if (tracking) {
+		// 			Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
+		// 			console.log("tracking Stopped");
+		// 		}
+		// 	});
+		// }
 	}, []);
 
 	const levelUpCheck = (task, stat, perGame) => {
@@ -158,9 +158,7 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 					route: track,
 				}),
 			});
-		} else {
-			console.log("No such document!");
-		}
+	
 		let _level_up = false;
 		if (goalsHit > 0) {
 			_level_up = true;
@@ -182,6 +180,9 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 		setTrack([]);
 		currentHex = -1;
 		claimedHexes = 0;
+			} else {
+			console.log("No such document!");
+		}
 		TaskManager.isTaskRegisteredAsync(LOCATION_TRACKING).then((tracking) => {
 			if (tracking) {
 				Location.stopLocationUpdatesAsync(LOCATION_TRACKING);
@@ -209,11 +210,17 @@ function Tracker({ setTrack, track, setRunData, setModalVisible }) {
 	};
 
 	return (
-		<View>
+		<View style={styles.container}>
 			{locationStarted ? (
-				<Button title="STOP" onPress={stopLocation} />
+				// <Button title="STOP" onPress={stopLocation} />
+				<TouchableOpacity onPress={stopLocation} style={styles.Button}>
+				<Text style={styles.ButtonText}>Stop Run</Text>
+				</TouchableOpacity>
 			) : (
-				<Button title="START" onPress={startLocation} />
+				// <Button title="Start Run" onPress={startLocation} />
+				<TouchableOpacity onPress={startLocation} style={styles.Button}>
+				<Text style={styles.ButtonText}>Start Run</Text>
+				</TouchableOpacity>
 			)}
 		</View>
 	);
@@ -245,14 +252,16 @@ const updateHexOwnerBackend = async (newPoint) => {
 		const hex = globalHexBoard[i];
 		if (isPointInPolygon(newPoint, hex.coords)) {
 			if (currentHex !== i) {
-				//only claim hex if it is not tile currently standing in
-				claimedHexes++;
-				hex.current_owner = auth.currentUser.uid;
-				hex.col = hexToRgba(globalColour, 0.6);
 				currentHex = i;
-				await setDoc(doc(db, "gameboard", board_name), {
-					board: globalHexBoard,
-				});
+				//only claim hex if it is not tile currently standing in
+				if (hex.current_owner != auth.currentUser.uid){
+					claimedHexes++;
+					hex.current_owner = auth.currentUser.uid;
+					hex.col = hexToRgba(globalColour, 0.6);
+					await setDoc(doc(db, "gameboard", board_name), {
+						board: globalHexBoard,
+					});
+				}
 				break;
 			}
 			//put stuff here if you want it to happen if a point is inside a hex. Can refer to the hex directly using "hex"
@@ -261,3 +270,28 @@ const updateHexOwnerBackend = async (newPoint) => {
 };
 
 export default Tracker;
+
+const styles = StyleSheet.create({
+	container: {
+
+		justifyContent: "flex-end",
+		alignItems: "center",
+	},
+	Button: {
+		width: "90%",
+		color: "#000",
+		height: 52,
+		backgroundColor: "tomato",
+		borderRadius: 10,
+		marginTop: 0,
+		marginBottom: 0,
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	ButtonText: {
+		fontWeight: "bold",
+		color: "white",
+		fontSize: 16,
+	},
+});

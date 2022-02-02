@@ -57,7 +57,7 @@ export const createBoard = (_lon, _lat) => {
 		board[index] = {
 			//this is the object for each hex, includes the coords arry above as a proprty. Add any properties here that each will have, eg owner, team, etc
 			current_owner: null,
-			col: "rgba(0, 89, 255, 0.4)", //blue
+			col: "rgba(114, 114, 114, 0.4)", //grey
 			coords: _coords,
 		};
 	});

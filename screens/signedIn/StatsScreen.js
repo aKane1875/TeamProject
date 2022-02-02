@@ -18,8 +18,15 @@ const Tab = createMaterialTopTabNavigator();
 export default function StatsScreen() {
 	return (
 		// <NavigationContainer>
-		<Tab.Navigator>
-			<Tab.Screen name="Achievements" component={ProgressScreen} />
+		<Tab.Navigator
+			screenOptions={{
+				tabBarActiveTintColor: "tomato",
+				tabBarInactiveTintColor: "gray",
+				tabBarLabelStyle: { fontSize: 16, fontWeight:"bold" },
+				tabBarStyle: { backgroundColor: 'white' },
+			}}
+		>
+			<Tab.Screen name="Tasks" component={ProgressScreen} />
 			<Tab.Screen name="Statistics" component={Charts} />
 		</Tab.Navigator>
 		// </NavigationContainer>

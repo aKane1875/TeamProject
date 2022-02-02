@@ -20,10 +20,11 @@ import { GetColour } from "./utils/helpers";
 //global vars
 globalHexBoard = [];
 globalColour = "";
-board_name = "SAMBOARD";
+board_name = "STATICBOARD";
 
 export default function App() {
 	LogBox.ignoreLogs(["Setting a timer"]);
+	LogBox.ignoreAllLogs();
 	const [isSignedIn, setIsSignedIn] = useState(true);
 	const Stack = createNativeStackNavigator();
 	const Tab = createBottomTabNavigator();
@@ -69,32 +70,32 @@ export default function App() {
 						}}
 					/>
 
-					<Tab.Screen
-						name="Social"
+					{/* <Tab.Screen
+						name="Leaderboard"
 						component={SocialScreen}
 						options={{
 							tabBarIcon: ({ color, size }) => (
 								<Ionicons name="people" color={color} size={size} />
 							),
 						}}
-					/>
+					/> */}
 
 					<Tab.Screen
-						name="Test"
+						name="Leaderboards"
 						component={TestToolScreen}
 						options={{
 							tabBarIcon: ({ color, size }) => (
-								<Ionicons name="hammer" color={color} size={size} />
+								<Ionicons name="podium" color={color} size={size} />
 							),
 						}}
 					/>
 
 					<Tab.Screen
-						name="Stats"
+						name="Achievements"
 						component={StatsScreen}
 						options={{
 							tabBarIcon: ({ color, size }) => (
-								<Ionicons name="bar-chart" color={color} size={size} />
+								<Ionicons name="trophy" color={color} size={size} />
 							),
 						}}
 					/>
