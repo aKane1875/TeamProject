@@ -94,37 +94,35 @@ const AccountScreen = () => {
         <View style={styles.Totals}>
           <Text style={styles.textTitle}>TOTALS</Text>
           <Text style={styles.text}>
-            Current Hexagons
-            <Text style={styles.Counts}>{"\n" + user.curr_hexagons}</Text>
+            Current Hexagons:{"  "}
+            <Text style={styles.Counts}>{user.curr_hexagons}</Text>
           </Text>
           <Text style={styles.text}>
-            Total Hexagons{" "}
-            <Text style={styles.Counts}>{"\n" + user.total_hexagons}</Text>
+            Total Hexagons:{"  "}
+            <Text style={styles.Counts}>{user.total_hexagons}</Text>
           </Text>
           <Text style={styles.text}>
-            Total Distance Covered{" "}
-            <Text style={styles.Counts}>{"\n" + user.total_distance} km</Text>
+            Total Distance Covered:{"  "}
+            <Text style={styles.Counts}>{user.total_distance} km</Text>
           </Text>
           <Text style={styles.text}>
-            Total Playtime{" "}
-            <Text style={styles.Counts}>
-              {"\n" + user.total_playtime} minutes
-            </Text>
+            Total Playtime:{"  "}
+            <Text style={styles.Counts}>{user.total_playtime} minutes</Text>
           </Text>
         </View>
         <View style={styles.Bests}>
           <Text style={styles.textTitle}>PERSONAL BESTS</Text>
           <Text style={styles.text}>
-            Furthest Distance ran{" "}
-            <Text style={styles.Counts}>{"\n" + user.best_distance} km</Text>
+            Furthest Distance ran:{"  "}
+            <Text style={styles.Counts}>{user.best_distance} km</Text>
           </Text>
           <Text style={styles.text}>
-            Most hexagons claimed{" "}
-            <Text style={styles.Counts}>{"\n" + user.best_distance} km</Text>
+            Most hexagons claimed:{"  "}
+            <Text style={styles.Counts}>{user.best_distance} km</Text>
           </Text>
           <Text style={styles.text}>
-            Best time{" "}
-            <Text style={styles.Counts}>{"\n" + user.best_distance}</Text>
+            Best time:{"  "}
+            <Text style={styles.Counts}>{user.best_distance}</Text>
           </Text>
         </View>
       </View>
@@ -164,46 +162,43 @@ const styles = StyleSheet.create({
   },
 
   textTitle: {
-    marginLeft: 0,
+    paddingLeft: 10,
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+    alignSelf: "center",
+    backgroundColor: "tomato",
+    marginBottom: 10,
+    width: "100%",
+    padding: 2,
+  },
+  text: {
     marginTop: 5,
     color: "tomato",
     fontWeight: "bold",
     fontSize: 16,
-    alignSelf: "flex-start",
-  },
-  text: {
-    // marginLeft: 0,
-    marginTop: 5,
-    color: "tomato",
-    fontWeight: "500",
-    fontSize: 16,
-    // alignSelf: "flex-end",
-    borderWidth: 2,
-    borderColor: "tomato",
-    alignSelf: "center",
+    marginBottom: 10,
+    padding: 10,
   },
   Stats: {
-    // textAlign: "center",
+    alignSelf: "center",
+    marginBottom: 20,
+    textAlign: "center",
   },
   Totals: {
     borderWidth: 2,
-    borderColor: "green",
-    // alignSelf: "flex-start",
-    marginBottom: 20,
-    // width: "90%",
-    // alignContent: "center",
+    borderColor: "tomato",
+    marginBottom: 30,
+    borderRadius: 10,
   },
   Bests: {
     borderWidth: 2,
-    borderColor: "green",
-    // alignSelf: "flex-end",
-    // textAlign: "right",
-    marginBottom: 20,
-    // width: "90%",
+    borderColor: "tomato",
+    marginBottom: 30,
+    borderRadius: 10,
   },
   Counts: {
-    // textAlign: "center",
-    fontSize: 50,
+    fontSize: 25,
     alignSelf: "center",
   },
 });
