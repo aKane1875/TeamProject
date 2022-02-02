@@ -16,7 +16,7 @@ const ChartCard = ({ title, runData }) => {
 				alignItems: "center",
 			}}
 		>
-			<VictoryChart height={180} width={320}>
+			<VictoryChart height={180} width={350}>
 				<VictoryLabel text={title} x={160} y={30} textAnchor="middle" />
 				<VictoryLine
 					style={{
